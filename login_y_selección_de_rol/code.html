@@ -1,0 +1,438 @@
+>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Ualett - Bienvenido</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#476DB5",
+            brandDeep: "#193F71",
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: max(884px, 100dvh);
+    }
+
+    .material-symbols-rounded {
+      font-variation-settings: 'FILL' 0, 'wght' 450, 'GRAD' 0, 'opsz' 24;
+    }
+
+    /* Light gradient background */
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #f8f9fc 0%, #ffffff 50%, #f5f7fb 100%);
+      background-size: 200% 200%;
+      animation: gradient 15s ease infinite;
+    }
+
+    /* Decorative elements */
+    .deco-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(71, 109, 181, 0.10), rgba(25, 63, 113, 0.14));
+      filter: blur(60px);
+      animation: float-slow 20s ease-in-out infinite;
+    }
+
+    @keyframes float-slow {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.1); }
+      66% { transform: translate(-30px, 30px) scale(0.9); }
+    }
+
+    /* Geometric shapes */
+    .shape {
+      position: absolute;
+      opacity: 0.45;
+    }
+
+    @keyframes rotate-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse-soft {
+      0%, 100% { opacity: 0.25; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(1.05); }
+    }
+
+    .rotating { animation: rotate-slow 30s linear infinite; }
+    .pulsing { animation: pulse-soft 4s ease-in-out infinite; }
+
+    /* Shimmer effect (for button highlights) */
+    @keyframes shimmer {
+      0% { transform: translateX(-130%) skewX(-12deg); opacity: 0; }
+      20% { opacity: 0.35; }
+      60% { opacity: 0.35; }
+      100% { transform: translateX(130%) skewX(-12deg); opacity: 0; }
+    }
+
+    .btn-shimmer::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
+      transform: translateX(-130%) skewX(-12deg);
+      animation: shimmer 2.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    /* Clean white card */
+    .glass {
+      background: #FFFFFF;
+      box-shadow: 0 20px 60px rgba(25, 63, 113, 0.10);
+    }
+
+    /* Smooth transitions */
+    * { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+    /* Role selection */
+    .role-card { position: relative; overflow: hidden; }
+    .role-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(71, 109, 181, 0.06) 0%, rgba(25, 63, 113, 0.06) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .role-card:has(input:checked)::before { opacity: 1; }
+
+    /* Input focus glow */
+    .input-glow:focus-within { box-shadow: 0 0 0 4px rgba(71, 109, 181, 0.10); }
+
+    /* Button press */
+    .btn-press:active { transform: scale(0.98); }
+
+    /* Social button hover */
+    .social-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(25, 63, 113, 0.14); }
+
+    /* Segmented control slider */
+    .segment-slider {
+      position: absolute;
+      height: calc(100% - 8px);
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(25, 63, 113, 0.12);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      top: 4px;
+    }
+
+    /* (NEW) YouTube-like particles (visible on white) */
+    .spark-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+      mask-image: radial-gradient(circle at 50% 40%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 55%, rgba(0,0,0,0) 100%);
+    }
+
+    .spark {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(71,109,181,0.95) 0%, rgba(71,109,181,0.35) 35%, rgba(71,109,181,0) 70%);
+      filter: blur(0.2px);
+      opacity: 0.0;
+      animation: spark-float 5.2s ease-in-out infinite;
+      mix-blend-mode: multiply; /* makes them visible on white */
+    }
+
+    /* some sparks are larger and softer */
+    .spark.big {
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle, rgba(25,63,113,0.9) 0%, rgba(25,63,113,0.28) 38%, rgba(25,63,113,0) 72%);
+      filter: blur(0.6px);
+      animation-duration: 7.5s;
+      mix-blend-mode: multiply;
+    }
+
+    /* tiny dust */
+    .spark.tiny {
+      width: 3px;
+      height: 3px;
+      background: radial-gradient(circle, rgba(71,109,181,0.9) 0%, rgba(71,109,181,0.25) 45%, rgba(71,109,181,0) 75%);
+      animation-duration: 4.4s;
+      mix-blend-mode: multiply;
+    }
+
+    @keyframes spark-float {
+      0%   { transform: translateY(30px) translateX(0px) scale(0.8); opacity: 0; }
+      10%  { opacity: 0.55; }
+      50%  { opacity: 0.25; }
+      90%  { opacity: 0.55; }
+      100% { transform: translateY(-120px) translateX(var(--tx)) scale(1.15); opacity: 0; }
+    }
+
+    /* (NEW) subtle glow lines (very faint) */
+    @keyframes drift {
+      0% { transform: translateX(-10%) translateY(0); opacity: 0.0; }
+      15% { opacity: 0.08; }
+      50% { opacity: 0.05; }
+      100% { transform: translateX(10%) translateY(-8px); opacity: 0.0; }
+    }
+
+    .glow-line {
+      position: absolute;
+      left: -30%;
+      width: 160%;
+      height: 140px;
+      top: 42%;
+      background: radial-gradient(closest-side, rgba(71,109,181,0.12), rgba(71,109,181,0) 70%);
+      filter: blur(18px);
+      animation: drift 6.5s ease-in-out infinite;
+      z-index: 1;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body class="gradient-bg">
+  <div class="relative flex min-h-screen w-full flex-col max-w-[412px] mx-auto overflow-hidden">
+
+    <!-- (NEW) visible particles layer -->
+    <div class="spark-layer">
+      <div class="glow-line"></div>
+
+      <!-- You can duplicate sparks if you want even more density -->
+      <span class="spark big"  style="left: 12%; bottom: 0; --tx: 18px; animation-delay: 0.2s;"></span>
+      <span class="spark tiny" style="left: 22%; bottom: 0; --tx: -12px; animation-delay: 0.9s;"></span>
+      <span class="spark"      style="left: 30%; bottom: 0; --tx: 10px; animation-delay: 1.4s;"></span>
+      <span class="spark tiny" style="left: 38%; bottom: 0; --tx: 22px; animation-delay: 0.5s;"></span>
+      <span class="spark big"  style="left: 46%; bottom: 0; --tx: -18px; animation-delay: 1.7s;"></span>
+      <span class="spark"      style="left: 54%; bottom: 0; --tx: 14px; animation-delay: 0.8s;"></span>
+      <span class="spark tiny" style="left: 62%; bottom: 0; --tx: -10px; animation-delay: 1.2s;"></span>
+      <span class="spark big"  style="left: 70%; bottom: 0; --tx: 20px; animation-delay: 0.4s;"></span>
+      <span class="spark"      style="left: 78%; bottom: 0; --tx: -16px; animation-delay: 1.5s;"></span>
+      <span class="spark tiny" style="left: 86%; bottom: 0; --tx: 12px; animation-delay: 0.7s;"></span>
+    </div>
+
+    <!-- Main Container -->
+    <div class="flex-1 flex flex-col px-5 py-4 relative z-10">
+
+      <!-- Logo Section (STATIC now) -->
+      <div class="flex flex-col items-center pt-3">
+        <img
+          src="/imagenes/logo.png"
+          alt="Ualett Logo"
+          class="w-44 h-44 object-contain select-none drop-shadow-[0_18px_42px_rgba(25,63,113,0.28)]"
+          draggable="false"
+        />
+      </div>
+
+      <!-- Main Card -->
+      <div class="glass rounded-[1.75rem] shadow-2xl overflow-hidden relative">
+        <!-- subtle top glow inside card -->
+        <div class="pointer-events-none absolute -top-24 left-1/2 h-48 w-72 -translate-x-1/2 rounded-full"
+             style="background: radial-gradient(circle, rgba(71,109,181,0.18) 0%, rgba(71,109,181,0.00) 70%); filter: blur(20px);"></div>
+
+        <!-- Segmented Control -->
+        <div class="p-4 pb-6 relative z-10">
+          <div class="relative flex h-12 items-center rounded-xl bg-gray-50 p-1">
+            <div id="slider" class="segment-slider w-[calc(50%-4px)] left-1"></div>
+
+            <label class="relative flex-1 cursor-pointer z-10">
+              <input
+                checked
+                class="peer hidden"
+                name="auth-toggle"
+                type="radio"
+                value="login"
+                onchange="moveSlider(0)"
+              />
+              <span class="flex h-10 items-center justify-center rounded-lg text-sm font-bold peer-checked:text-[#193F71] text-gray-500">
+                Iniciar Sesión
+              </span>
+            </label>
+
+            <label class="relative flex-1 cursor-pointer z-10">
+              <input
+                class="peer hidden"
+                name="auth-toggle"
+                type="radio"
+                value="signup"
+                onchange="moveSlider(1)"
+              />
+              <span class="flex h-10 items-center justify-center rounded-lg text-sm font-bold peer-checked:text-[#193F71] text-gray-500">
+                Registrarse
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="px-4 space-y-3 relative z-10">
+
+          <!-- Email/Phone Field -->
+          <div>
+            <label class="block text-[#193F71] text-xs font-bold mb-4 px-1">
+              Correo o Teléfono
+            </label>
+            <div class="relative input-glow rounded-xl">
+              <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-[#476DB5]/60 text-[20px]">
+                mail
+              </span>
+              <input
+                type="text"
+                placeholder="nombre@ejemplo.com"
+                class="w-full h-12 pl-10 pr-4 rounded-xl border-2 border-gray-100 focus:border-[#476DB5] focus:outline-none text-[#191919] font-medium bg-white text-sm"
+              />
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div>
+            <div class="flex justify-between items-center mb-4 px-1">
+              <label class="text-[#193F71] text-xs font-bold">
+                Contraseña
+              </label>
+              <a href="#" class="text-[#476DB5] text-[10px] font-semibold hover:text-[#193F71]">
+                ¿Olvidaste tu contraseña?
+              </a>
+            </div>
+            <div class="relative input-glow rounded-xl">
+              <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-[#476DB5]/60 text-[20px]">
+                lock
+              </span>
+              <input
+                id="passwordInput"
+                type="password"
+                placeholder="••••••••"
+                class="w-full h-12 pl-10 pr-12 rounded-xl border-2 border-gray-100 focus:border-[#476DB5] focus:outline-none text-[#191919] font-medium bg-white text-sm"
+              />
+              <button id="togglePassBtn" class="absolute right-3 top-1/2 -translate-y-1/2 text-[#476DB5]/60 hover:text-[#476DB5]" type="button">
+                <span id="passIcon" class="material-symbols-rounded text-[20px]">visibility_off</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Role Selection -->
+          <div class="pt-2">
+            <h3 class="text-[#193F71] text-xs font-bold mb-2 px-1">Selecciona tu perfil</h3>
+            <div class="grid grid-cols-2 gap-2.5">
+
+              <!-- Driver -->
+              <label class="role-card cursor-pointer">
+                <input checked class="peer hidden" name="role" type="radio" value="driver"/>
+                <div class="relative flex flex-col items-center justify-center p-3 rounded-xl border-2 border-gray-100 bg-white peer-checked:border-[#476DB5] peer-checked:shadow-lg h-24">
+                  <span class="material-symbols-rounded text-3xl mb-1 text-gray-400 peer-checked:text-[#476DB5]">
+                    directions_car
+                  </span>
+                  <span class="text-xs font-bold text-gray-600 peer-checked:text-[#193F71]">
+                    Conductor
+                  </span>
+                  <div class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-[#476DB5] peer-checked:bg-[#476DB5] flex items-center justify-center">
+                    <span class="material-symbols-rounded text-white text-[12px] opacity-0 peer-checked:opacity-100">
+                      check
+                    </span>
+                  </div>
+                </div>
+              </label>
+
+              <!-- Client -->
+              <label class="role-card cursor-pointer">
+                <input class="peer hidden" name="role" type="radio" value="client"/>
+                <div class="relative flex flex-col items-center justify-center p-3 rounded-xl border-2 border-gray-100 bg-white peer-checked:border-[#476DB5] peer-checked:shadow-lg h-24">
+                  <span class="material-symbols-rounded text-3xl mb-1 text-gray-400 peer-checked:text-[#476DB5]">
+                    person
+                  </span>
+                  <span class="text-xs font-bold text-gray-600 peer-checked:text-[#193F71]">
+                    Cliente
+                  </span>
+                  <div class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-[#476DB5] peer-checked:bg-[#476DB5] flex items-center justify-center">
+                    <span class="material-symbols-rounded text-white text-[12px] opacity-0 peer-checked:opacity-100">
+                      check
+                    </span>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Main Button -->
+          <div class="pt-8">
+<button
+  id="loginBtn"
+  class="relative w-full h-12 rounded-xl bg-gradient-to-r from-[#193F71] to-[#476DB5] text-white font-bold text-sm shadow-lg hover:shadow-xl btn-press overflow-hidden btn-shimmer"
+  type="button"
+>
+  Ingresar
+</button>
+
+          </div>
+
+          <!-- Divider -->
+          <div class="flex items-center gap-3 py-3 mt-3">
+            <div class="flex-1 h-px bg-gray-200"></div>
+            <span class="text-gray-400 text-xs font-semibold">O continúa con</span>
+            <div class="flex-1 h-px bg-gray-200"></div>
+          </div>
+
+          <!-- (ONLY) Google button -->
+          <div class="pb-4">
+            <button
+              class="social-btn w-full h-12 rounded-xl border-2 border-gray-100 bg-white hover:border-gray-200 flex items-center justify-center gap-3 font-bold text-sm text-[#191919]"
+              type="button"
+            >
+              <svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              Continuar con Google
+            </button>
+          </div>
+
+          <!-- Terms -->
+          <p class="text-center text-gray-500 text-[10px] pb-4 px-2 leading-relaxed">
+            Al continuar, aceptas nuestros
+            <a href="#" class="text-[#476DB5] font-semibold hover:text-[#193F71]">Términos de Servicio</a>
+            y
+            <a href="#" class="text-[#476DB5] font-semibold hover:text-[#193F71]">Política de Privacidad</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="h-4"></div>
+    </div>
+  </div>
+
+<script>
+  document.getElementById("loginBtn").addEventListener("click", () => {
+    const selectedRole = document.querySelector('input[name="role"]:checked')?.value;
+
+    if (selectedRole === "driver") {
+      window.location.href = "/dashboard_del_conductor_ualett/code.html";
+    } else if (selectedRole === "client") {
+      window.location.href = "/inicio_usuario/code.html";
+    }
+  });
+</script>
+
+</body>
+</html>

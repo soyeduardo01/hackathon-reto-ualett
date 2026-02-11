@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ualett - Inicio Usuario</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#476DB5",
+            brandDeep: "#193F71",
+            textMain: "#191919",
+            surface: "#FFFFFF",
+            soft: "#F6F7FB",
+            line: "rgba(25,63,113,0.10)",
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans", "sans-serif"],
+          },
+          boxShadow: {
+            soft: "0 18px 46px rgba(25,63,113,0.10)",
+            card: "0 16px 36px rgba(25,63,113,0.12)",
+          }
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body{
+      font-family: "Plus Jakarta Sans", sans-serif;
+      min-height: max(884px, 100dvh);
+      background: linear-gradient(135deg, #f8f9fc 0%, #ffffff 50%, #f5f7fb 100%);
+    }
+    .material-symbols-rounded{
+      font-variation-settings:'FILL' 0,'wght' 500,'GRAD' 0,'opsz' 24;
+    }
+
+    /* iOS-like safe area */
+    .safe-top { padding-top: max(env(safe-area-inset-top), 10px); }
+    .safe-bottom { padding-bottom: max(env(safe-area-inset-bottom), 14px); }
+
+    /* Better switch (Go / Food) */
+    .mode-switch {
+      background: rgba(255,255,255,0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(25,63,113,0.10);
+      box-shadow: 0 10px 24px rgba(25,63,113,0.08);
+    }
+    .mode-slider{
+      position:absolute;
+      top:6px;
+      left:6px;
+      height: calc(100% - 12px);
+      width: calc(50% - 6px);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(25,63,113,0.12);
+      transition: transform .35s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* Cards */
+    .card {
+      background: #fff;
+      border: 1px solid rgba(25,63,113,0.08);
+      box-shadow: 0 14px 30px rgba(25,63,113,0.10);
+    }
+
+    /* Map shell */
+    .map-shell{
+      position: relative;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    /* Image map background (new) */
+    .map-bg{
+      position:absolute;
+      inset:0;
+      background-image: url('/imagenes/mapa.png');
+      background-size: cover;
+      background-position: center;
+      opacity: .26; /* translucent */
+      filter: saturate(0.95) contrast(1.05);
+      transform: scale(1.03);
+      pointer-events:none;
+    }
+    /* dark translucent overlay (new) */
+    .map-dim{
+      position:absolute;
+      inset:0;
+      background: radial-gradient(circle at 30% 20%, rgba(25,63,113,0.50) 0%, rgba(25,63,113,0.30) 40%, rgba(0,0,0,0.32) 100%);
+      opacity: .72;
+      pointer-events:none;
+    }
+    /* soft highlight so it still feels "Ualett" */
+    .map-glow{
+      position:absolute;
+      inset:-40px;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(71,109,181,0.35) 0%, rgba(71,109,181,0.00) 55%),
+        radial-gradient(circle at 85% 35%, rgba(25,63,113,0.38) 0%, rgba(25,63,113,0.00) 60%);
+      opacity: .55;
+      pointer-events:none;
+    }
+
+    .pin{
+      position:absolute;
+      left: 55%;
+      top: 42%;
+      transform: translate(-50%, -100%);
+      filter: drop-shadow(0 12px 18px rgba(0,0,0,.35));
+      z-index: 10;
+    }
+
+    /* Bottom navigation */
+    .bottom-nav{
+      background: rgba(255,255,255,0.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(25,63,113,0.10);
+    }
+
+    * { transition: all 0.25s cubic-bezier(0.4,0,0.2,1); }
+    .hidden-section { display: none; }
+  </style>
+</head>
+
+<body>
+  <div class="relative flex min-h-screen w-full flex-col max-w-[412px] mx-auto overflow-hidden">
+
+    <!-- Top Bar -->
+    <header class="safe-top px-4 pt-3 pb-3 relative z-20">
+      <div class="flex items-center justify-between gap-3">
+        <!-- Left: Address -->
+        <button class="flex items-center gap-2 px-3 py-2 rounded-2xl card">
+          <span class="material-symbols-rounded text-[20px] text-primary">location_on</span>
+          <div class="text-left">
+            <p class="text-[10px] font-semibold text-gray-500 leading-none">Tu ubicación</p>
+            <p class="text-[12px] font-extrabold text-textMain leading-tight">Santo Domingo (Zona)</p>
+          </div>
+          <span class="material-symbols-rounded text-[18px] text-gray-500">expand_more</span>
+        </button>
+
+        <!-- Right: Actions -->
+        <div class="flex items-center gap-2">
+          <button class="w-10 h-10 rounded-2xl card grid place-items-center">
+            <span class="material-symbols-rounded text-[20px] text-textMain">notifications</span>
+          </button>
+          <button class="w-10 h-10 rounded-2xl card grid place-items-center">
+            <span class="material-symbols-rounded text-[20px] text-textMain">account_circle</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Better Switch (Go / Food) -->
+      <div class="mt-4">
+        <div class="mode-switch relative h-14 rounded-[20px] px-2">
+          <div id="modeSlider" class="mode-slider"></div>
+
+          <div class="relative z-10 h-full flex items-center justify-between gap-2">
+            <!-- GO -->
+            <label class="flex-1 h-full cursor-pointer flex items-center justify-center">
+              <input class="peer hidden" name="mode" type="radio" value="go" checked>
+              <div class="w-full h-full rounded-[16px] flex items-center justify-center gap-2">
+                <span class="material-symbols-rounded text-[18px] peer-checked:text-brandDeep text-gray-500">local_taxi</span>
+                <span class="text-[13px] font-extrabold peer-checked:text-brandDeep text-gray-500">Ualett Go</span>
+              </div>
+            </label>
+
+            <!-- FOOD -->
+            <label class="flex-1 h-full cursor-pointer flex items-center justify-center">
+              <input class="peer hidden" name="mode" type="radio" value="food">
+              <div class="w-full h-full rounded-[16px] flex items-center justify-center gap-2">
+                <span class="material-symbols-rounded text-[18px] peer-checked:text-brandDeep text-gray-500">restaurant</span>
+                <span class="text-[13px] font-extrabold peer-checked:text-brandDeep text-gray-500">Ualett Food</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="flex-1 relative z-10 px-4 pb-24">
+
+      <!-- ===================== GO MODE ===================== -->
+      <section id="goSection" class="space-y-3">
+        <!-- Big Map Card -->
+        <div class="card rounded-[26px] overflow-hidden map-shell">
+
+          <!-- NEW: map image background + dark translucent overlay -->
+          <div class="map-bg"></div>
+          <div class="map-dim"></div>
+          <div class="map-glow"></div>
+
+          <!-- Floating search -->
+          <div class="relative z-20 p-4">
+            <div class="rounded-2xl bg-white/92 backdrop-blur-xl border border-white/50 shadow-soft p-3">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-rounded text-primary text-[20px]">my_location</span>
+                <input
+                  class="w-full bg-transparent outline-none border-0 text-[13px] font-semibold text-textMain placeholder:text-gray-400"
+                  placeholder="¿A dónde vas hoy?"
+                  type="text"
+                />
+                <button class="w-10 h-10 rounded-2xl bg-soft grid place-items-center border border-[rgba(25,63,113,0.08)]">
+                  <span class="material-symbols-rounded text-[20px] text-brandDeep">search</span>
+                </button>
+              </div>
+
+              <div class="mt-3 grid grid-cols-2 gap-2">
+                <button class="rounded-2xl border border-[rgba(25,63,113,0.08)] bg-white px-3 py-2 text-left">
+                  <p class="text-[10px] text-gray-500 font-semibold">Salida</p>
+                  <p class="text-[12px] text-textMain font-extrabold leading-tight truncate">Tu ubicación actual</p>
+                </button>
+                <button class="rounded-2xl border border-[rgba(25,63,113,0.08)] bg-white px-3 py-2 text-left">
+                  <p class="text-[10px] text-gray-500 font-semibold">Destino</p>
+                  <p class="text-[12px] text-textMain font-extrabold leading-tight truncate">Elige un destino</p>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pin -->
+          <div class="pin">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brandDeep to-primary grid place-items-center">
+              <span class="material-symbols-rounded text-white text-[26px]">location_on</span>
+            </div>
+            <div class="mx-auto mt-2 w-3 h-3 rounded-full bg-black/30 blur-[1px]"></div>
+          </div>
+
+          <!-- Map footer actions -->
+          <div class="relative z-20 px-4 pb-4">
+            <div class="grid grid-cols-3 gap-2">
+              <button class="rounded-2xl bg-white border border-white/50 px-3 py-3 text-left">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-rounded text-[20px] text-primary">schedule</span>
+                  <p class="text-[12px] font-extrabold text-textMain">Ahora</p>
+                </div>
+                <p class="text-[10px] text-gray-500 font-semibold mt-1">Programar</p>
+              </button>
+
+              <button class="rounded-2xl bg-white border border-white/50 px-3 py-3 text-left">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-rounded text-[20px] text-primary">payments</span>
+                  <p class="text-[12px] font-extrabold text-textMain">Tarjeta</p>
+                </div>
+                <p class="text-[10px] text-gray-500 font-semibold mt-1">Método pago</p>
+              </button>
+
+              <button class="rounded-2xl bg-white border border-white/50 px-3 py-3 text-left">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-rounded text-[20px] text-primary">sell</span>
+                  <p class="text-[12px] font-extrabold text-textMain">Promo</p>
+                </div>
+                <p class="text-[10px] text-gray-500 font-semibold mt-1">Aplicar</p>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ride options -->
+        <div class="card rounded-[26px] p-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-[14px] font-extrabold text-brandDeep">Elige tu viaje</h2>
+            <button class="text-[11px] font-bold text-primary hover:text-brandDeep">Ver todo</button>
+          </div>
+
+          <div class="mt-3 space-y-2">
+            <label class="cursor-pointer">
+              <input type="radio" name="ride" class="peer hidden" checked>
+              <div class="rounded-2xl border border-[rgba(25,63,113,0.10)] p-3 flex items-center justify-between bg-white peer-checked:border-primary peer-checked:shadow-soft">
+                <div class="flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-2xl bg-soft grid place-items-center border border-[rgba(25,63,113,0.08)]">
+                    <span class="material-symbols-rounded text-[22px] text-brandDeep">directions_car</span>
+                  </div>
+                  <div>
+                    <p class="text-[13px] font-extrabold text-textMain leading-tight">GoX</p>
+                    <p class="text-[11px] text-gray-500 font-semibold">Rápido (2-5 min)</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <p class="text-[13px] font-extrabold text-textMain">RD$ 220</p>
+                  <p class="text-[11px] text-gray-500 font-semibold">Estimado</p>
+                </div>
+              </div>
+            </label>
+
+            <label class="cursor-pointer">
+              <input type="radio" name="ride" class="peer hidden">
+              <div class="rounded-2xl border border-[rgba(25,63,113,0.10)] p-3 flex items-center justify-between bg-white peer-checked:border-primary peer-checked:shadow-soft">
+                <div class="flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-2xl bg-soft grid place-items-center border border-[rgba(25,63,113,0.08)]">
+                    <span class="material-symbols-rounded text-[22px] text-brandDeep">commute</span>
+                  </div>
+                  <div>
+                    <p class="text-[13px] font-extrabold text-textMain leading-tight">Go Comfort</p>
+                    <p class="text-[11px] text-gray-500 font-semibold">Más espacio</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <p class="text-[13px] font-extrabold text-textMain">RD$ 310</p>
+                  <p class="text-[11px] text-gray-500 font-semibold">Estimado</p>
+                </div>
+              </div>
+            </label>
+
+            <label class="cursor-pointer">
+              <input type="radio" name="ride" class="peer hidden">
+              <div class="rounded-2xl border border-[rgba(25,63,113,0.10)] p-3 flex items-center justify-between bg-white peer-checked:border-primary peer-checked:shadow-soft">
+                <div class="flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-2xl bg-soft grid place-items-center border border-[rgba(25,63,113,0.08)]">
+                    <span class="material-symbols-rounded text-[22px] text-brandDeep">electric_bolt</span>
+                  </div>
+                  <div>
+                    <p class="text-[13px] font-extrabold text-textMain leading-tight">Go Saver</p>
+                    <p class="text-[11px] text-gray-500 font-semibold">Económico</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <p class="text-[13px] font-extrabold text-textMain">RD$ 180</p>
+                  <p class="text-[11px] text-gray-500 font-semibold">Estimado</p>
+                </div>
+              </div>
+            </label>
+          </div>
+
+          <button class="mt-4 w-full h-12 rounded-2xl bg-gradient-to-r from-brandDeep to-primary text-white font-extrabold text-[13px] shadow-card active:scale-[0.98]">
+            Confirmar viaje
+          </button>
+        </div>
+      </section>
+
+      <!-- ===================== FOOD MODE ===================== -->
+      <section id="foodSection" class="hidden-section space-y-4">
+        <!-- Search in Food -->
+        <div class="card rounded-[26px] p-3">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-rounded text-primary text-[20px]">search</span>
+            <input
+              class="w-full bg-transparent outline-none border-0 text-[13px] font-semibold text-textMain placeholder:text-gray-400"
+              placeholder="Buscar restaurantes o platos..."
+              type="text"
+            />
+            <button class="w-10 h-10 rounded-2xl bg-soft grid place-items-center border border-[rgba(25,63,113,0.08)]" title="Filtros">
+              <span class="material-symbols-rounded text-[20px] text-brandDeep">tune</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter chips with icons -->
+        <div class="flex gap-2 overflow-x-auto pb-1">
+          <button class="shrink-0 card rounded-2xl px-3 py-2 flex items-center gap-2">
+            <span class="material-symbols-rounded text-[18px] text-primary">local_cafe</span>
+            <span class="text-[12px] font-extrabold text-textMain">Desayuno</span>
+          </button>
+          <button class="shrink-0 card rounded-2xl px-3 py-2 flex items-center gap-2">
+            <span class="material-symbols-rounded text-[18px] text-primary">lunch_dining</span>
+            <span class="text-[12px] font-extrabold text-textMain">Almuerzo</span>
+          </button>
+          <button class="shrink-0 card rounded-2xl px-3 py-2 flex items-center gap-2">
+            <span class="material-symbols-rounded text-[18px] text-primary">ramen_dining</span>
+            <span class="text-[12px] font-extrabold text-textMain">Asiática</span>
+          </button>
+          <button class="shrink-0 card rounded-2xl px-3 py-2 flex items-center gap-2">
+            <span class="material-symbols-rounded text-[18px] text-primary">local_pizza</span>
+            <span class="text-[12px] font-extrabold text-textMain">Pizza</span>
+          </button>
+          <button class="shrink-0 card rounded-2xl px-3 py-2 flex items-center gap-2">
+            <span class="material-symbols-rounded text-[18px] text-primary">icecream</span>
+            <span class="text-[12px] font-extrabold text-textMain">Postres</span>
+          </button>
+          <button class="shrink-0 card rounded-2xl px-3 py-2 flex items-center gap-2">
+            <span class="material-symbols-rounded text-[18px] text-primary">eco</span>
+            <span class="text-[12px] font-extrabold text-textMain">Saludable</span>
+          </button>
+        </div>
+
+        <!-- Promo banner -->
+        <div class="card rounded-[26px] overflow-hidden">
+          <div class="relative h-40">
+            <img
+              alt="Promo"
+              class="absolute inset-0 w-full h-full object-cover"
+              src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=1200&q=80"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+
+            <div class="relative z-10 p-4 h-full flex flex-col justify-end">
+              <p class="text-white/90 text-[11px] font-semibold">Hoy en Ualett Food</p>
+              <p class="text-white text-[16px] font-extrabold leading-tight">Combos con delivery desde RD$ 99</p>
+              <button class="mt-3 w-fit px-4 py-2 rounded-2xl bg-white text-brandDeep text-[12px] font-extrabold active:scale-[0.98]">
+                Ver ofertas
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Restaurants -->
+        <div class="flex items-center justify-between px-1">
+          <h2 class="text-[14px] font-extrabold text-brandDeep">Cerca de ti</h2>
+          <button class="text-[11px] font-bold text-primary hover:text-brandDeep">Ver todo</button>
+        </div>
+
+        <div class="grid grid-cols-1 gap-3">
+          <!-- Cards (same as before) -->
+          <article class="card rounded-[26px] overflow-hidden">
+            <div class="relative h-44">
+              <img alt="Breakfast Cafe" class="absolute inset-0 w-full h-full object-cover"
+                   src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1200&q=80"/>
+              <button class="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/90 grid place-items-center border border-white/70 active:scale-[0.98]">
+                <span class="material-symbols-rounded text-[20px] text-brandDeep">favorite</span>
+              </button>
+              <div class="absolute bottom-3 left-3 px-3 py-1.5 rounded-full bg-white/90 border border-white/70 text-[11px] font-extrabold text-textMain">4.8</div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-2">
+                <h3 class="text-[13px] font-extrabold text-textMain">Breakfast Cafe</h3>
+                <span class="text-[11px] font-bold text-gray-500">$$</span>
+              </div>
+              <div class="mt-2 flex items-center gap-2 text-[11px] text-gray-500 font-semibold">
+                <span class="material-symbols-rounded text-[18px] text-primary">delivery_dining</span>
+                Delivery RD$ 99
+                <span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+                25-40 min
+              </div>
+              <div class="mt-3 flex gap-2 flex-wrap">
+                <span class="px-3 py-1 rounded-full bg-soft border border-[rgba(25,63,113,0.08)] text-[10px] font-bold text-textMain">Desayuno</span>
+                <span class="px-3 py-1 rounded-full bg-soft border border-[rgba(25,63,113,0.08)] text-[10px] font-bold text-textMain">Café</span>
+                <span class="px-3 py-1 rounded-full bg-soft border border-[rgba(25,63,113,0.08)] text-[10px] font-bold text-textMain">Postres</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card rounded-[26px] overflow-hidden">
+            <div class="relative h-44">
+              <img alt="Lucia Ristorante" class="absolute inset-0 w-full h-full object-cover"
+                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnnoBFfe_P3JTuNqKq9kfnX-h8XX7AIJ2Bxw&s"/>
+              <button class="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/90 grid place-items-center border border-white/70 active:scale-[0.98]">
+                <span class="material-symbols-rounded text-[20px] text-brandDeep">favorite</span>
+              </button>
+              <div class="absolute bottom-3 left-3 px-3 py-1.5 rounded-full bg-white/90 border border-white/70 text-[11px] font-extrabold text-textMain">4.6</div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-2">
+                <h3 class="text-[13px] font-extrabold text-textMain">Lucia Ristorante</h3>
+                <span class="text-[11px] font-bold text-gray-500">$$$</span>
+              </div>
+              <div class="mt-2 flex items-center gap-2 text-[11px] text-gray-500 font-semibold">
+                <span class="material-symbols-rounded text-[18px] text-primary">delivery_dining</span>
+                Delivery RD$ 149
+                <span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+                35-45 min
+              </div>
+              <div class="mt-3 flex gap-2 flex-wrap">
+                <span class="px-3 py-1 rounded-full bg-soft border border-[rgba(25,63,113,0.08)] text-[10px] font-bold text-textMain">Italiana</span>
+                <span class="px-3 py-1 rounded-full bg-soft border border-[rgba(25,63,113,0.08)] text-[10px] font-bold text-textMain">Pasta</span>
+                <span class="px-3 py-1 rounded-full bg-soft border border-[rgba(25,63,113,0.08)] text-[10px] font-bold text-textMain">Pizza</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="h-1"></div>
+      </section>
+    </main>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav safe-bottom fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[412px] z-30">
+      <div class="px-5 pt-3 pb-4 grid grid-cols-4 gap-2">
+        <button class="flex flex-col items-center gap-1">
+          <span class="material-symbols-rounded text-[22px] text-brandDeep">home</span>
+          <span class="text-[10px] font-extrabold text-brandDeep">Inicio</span>
+        </button>
+        <button class="flex flex-col items-center gap-1">
+          <span class="material-symbols-rounded text-[22px] text-gray-500">search</span>
+          <span class="text-[10px] font-extrabold text-gray-500">Buscar</span>
+        </button>
+        <button class="flex flex-col items-center gap-1">
+          <span class="material-symbols-rounded text-[22px] text-gray-500">receipt_long</span>
+          <span class="text-[10px] font-extrabold text-gray-500">Pedidos</span>
+        </button>
+        <button class="flex flex-col items-center gap-1">
+          <span class="material-symbols-rounded text-[22px] text-gray-500">person</span>
+          <span class="text-[10px] font-extrabold text-gray-500">Cuenta</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <script>
+    // Improved switch logic + slider
+    function setMode(mode) {
+      const goSection = document.getElementById("goSection");
+      const foodSection = document.getElementById("foodSection");
+      const slider = document.getElementById("modeSlider");
+
+      if (mode === "go") {
+        goSection.classList.remove("hidden-section");
+        foodSection.classList.add("hidden-section");
+        slider.style.transform = "translateX(0)";
+      } else {
+        goSection.classList.add("hidden-section");
+        foodSection.classList.remove("hidden-section");
+        slider.style.transform = "translateX(calc(100% + 6px))";
+      }
+    }
+
+    // Sync on change
+    document.querySelectorAll('input[name="mode"]').forEach(r => {
+      r.addEventListener("change", (e) => setMode(e.target.value));
+    });
+
+    // Initialize
+    setMode(document.querySelector('input[name="mode"]:checked')?.value || "go");
+  </script>
+</body>
+</html>

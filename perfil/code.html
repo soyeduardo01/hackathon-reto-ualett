@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Perfil (Ualett Driver)</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#3c69be",
+            "brand-deep": "#193F71",
+            "brand-accent": "#476DB5",
+            "background-light": "#f6f7f8",
+            "background-dark": "#14171e",
+          },
+          fontFamily: {
+            display: ["Inter", "sans-serif"],
+          },
+          boxShadow: {
+            soft: "0 12px 30px rgba(16, 24, 40, 0.08)",
+            card: "0 10px 25px rgba(16, 24, 40, 0.10)",
+          },
+          borderRadius: {
+            DEFAULT: "0.75rem",
+            lg: "1rem",
+            xl: "1.25rem",
+            full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+
+<style>
+    body { font-family: "Inter", sans-serif; }
+    .material-symbols-outlined {
+  font-variation-settings: "FILL" 1, "wght" 600, "GRAD" 0, "opsz" 24;
+}
+
+    body { min-height: max(884px, 100dvh); }
+    /* Textura sutil */
+    .ualett-texture {
+      background-image:
+        radial-gradient(circle at 20% 25%, rgba(71,109,181,.18) 1px, transparent 1px),
+        radial-gradient(circle at 80% 20%, rgba(25,63,113,.12) 1px, transparent 1px),
+        radial-gradient(circle at 35% 75%, rgba(71,109,181,.10) 1px, transparent 1px),
+        linear-gradient(135deg, rgba(25,63,113,.05), rgba(71,109,181,.03));
+      background-size: 26px 26px, 32px 32px, 36px 36px, cover;
+      background-position: 0 0, 12px 10px, 20px 6px, center;
+    }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-[#101319] dark:text-gray-100 min-h-screen flex flex-col max-w-md mx-auto border-x border-gray-200 dark:border-gray-800 shadow-xl overflow-x-hidden relative">
+
+  <div class="absolute inset-0 -z-10 ualett-texture opacity-[0.35] dark:opacity-[0.12] pointer-events-none"></div>
+
+  <header class="sticky top-0 z-50">
+    <div class="px-4 pt-4 pb-3 bg-background-light/80 dark:bg-background-dark/70 backdrop-blur-xl border-b border-gray-200/60 dark:border-gray-800/70">
+      <div class="flex items-center justify-between">
+        <button onclick="history.back()" class="flex items-center justify-center size-11 rounded-full bg-white/80 dark:bg-gray-800/70 border border-gray-200/80 dark:border-gray-700 shadow-sm active:scale-95 transition">
+          <span class="material-symbols-outlined text-gray-700 dark:text-gray-200">arrow_back</span>
+        </button>
+
+        <h1 class="text-base font-bold tracking-tight text-[#101319] dark:text-white">Perfil</h1>
+
+        <button class="flex items-center justify-center size-11 rounded-full bg-white/80 dark:bg-gray-800/70 border border-gray-200/80 dark:border-gray-700 shadow-sm active:scale-95 transition">
+          <span class="material-symbols-outlined text-primary">settings</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="px-4 pt-5">
+    <div class="rounded-xl bg-white/75 dark:bg-gray-900/40 backdrop-blur border border-gray-200/70 dark:border-gray-800 shadow-soft p-4">
+      <div class="flex items-center gap-4">
+        <div class="relative">
+          <div class="size-16 rounded-full overflow-hidden ring-2 ring-primary/20 shadow-sm">
+            <img
+              class="w-full h-full object-cover"
+              alt="Foto del conductor"
+              src="/imagenes/user.png"
+            />
+          </div>
+          <span class="absolute -bottom-1 -right-1 size-5 rounded-full bg-green-500 ring-4 ring-white dark:ring-gray-900"></span>
+        </div>
+
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-500 dark:text-gray-400">Conductor verificado</p>
+          <h2 class="text-lg font-bold tracking-tight text-[#101319] dark:text-white">José Castillo</h2>
+          <div class="mt-2 flex flex-wrap items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-50 dark:bg-green-900/25 border border-green-200/60 dark:border-green-800/50">
+              <span class="size-2 rounded-full bg-green-500"></span>
+              <span class="text-xs font-bold text-green-700 dark:text-green-300">Conectado</span>
+            </span>
+
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/10">
+              <span class="material-symbols-outlined text-primary text-[16px]">star</span>
+              <span class="text-xs font-bold text-primary">4.9</span>
+            </span>
+          </div>
+        </div>
+
+        <button class="h-11 px-4 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm text-sm font-bold active:scale-[0.98] transition">
+          Editar
+        </button>
+      </div>
+
+      <div class="mt-4 grid grid-cols-3 gap-2">
+        <div class="rounded-lg bg-primary/5 dark:bg-primary/10 border border-primary/10 p-3">
+          <p class="text-[11px] font-semibold text-gray-500 dark:text-gray-400">Viajes</p>
+          <p class="mt-1 text-base font-bold text-gray-900 dark:text-white">1,284</p>
+        </div>
+        <div class="rounded-lg bg-primary/5 dark:bg-primary/10 border border-primary/10 p-3">
+          <p class="text-[11px] font-semibold text-gray-500 dark:text-gray-400">Balance</p>
+          <p class="mt-1 text-base font-bold text-gray-900 dark:text-white">$320</p>
+        </div>
+        <div class="rounded-lg bg-primary/5 dark:bg-primary/10 border border-primary/10 p-3">
+          <p class="text-[11px] font-semibold text-gray-500 dark:text-gray-400">Nivel</p>
+          <p class="mt-1 text-base font-bold text-gray-900 dark:text-white">Gold</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-4 pt-4">
+    <a href="https://ualett.com/las-vegas-lights-fc-announces-partnership-with-ualett/" target="_blank">
+       <img 
+      src="/imagenes/banner-patrocinio.png"  class="w-full rounded-xl border border-amber-200/50 dark:border-amber-800/20 
+             transition-transform active:scale-[0.98]"
+    />
+    </a>
+  </section>
+
+  <section class="px-4 pt-6">
+    <h3 class="text-gray-900 dark:text-white font-bold text-lg mb-3">Accesos</h3>
+
+    <div class="grid gap-3">
+      <button onclick="window.location.href='/planes_de_suscripción_ualett_pro/code.html'" class="group w-full text-left bg-gradient-to-r from-amber-50 to-white dark:from-amber-900/20 dark:to-gray-900/40 p-4 rounded-xl shadow-sm border border-amber-100 dark:border-amber-800/30 flex items-center gap-4 active:scale-[0.99] transition">
+        <div class="h-12 w-12 rounded-xl bg-amber-100 dark:bg-amber-900/40 border border-amber-200 dark:border-amber-700/50 flex items-center justify-center">
+          <span class="material-symbols-outlined text-amber-600 dark:text-amber-400">workspace_premium</span>
+        </div>
+        <div class="flex-1">
+          <p class="font-bold text-[#101319] dark:text-white leading-tight">Suscripción Premium</p>
+          <p class="text-xs text-amber-700 dark:text-amber-500 mt-0.5 font-medium">Gestionar plan y beneficios</p>
+        </div>
+        <span class="material-symbols-outlined text-amber-300 dark:text-amber-700 group-active:translate-x-0.5 transition">chevron_right</span>
+      </button>
+
+      <button class="group w-full text-left bg-white dark:bg-gray-900/40 p-4 rounded-xl shadow-sm border border-gray-100/80 dark:border-gray-800/70 flex items-center gap-4 active:scale-[0.99] transition">
+        <div class="h-12 w-12 rounded-xl bg-blue-50 dark:bg-blue-900/25 border border-blue-200/60 dark:border-blue-800/50 flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary">badge</span>
+        </div>
+        <div class="flex-1">
+          <p class="font-bold text-[#101319] dark:text-white leading-tight">Documentos</p>
+          <p class="text-xs text-[#5b6c8b] dark:text-gray-400 mt-0.5">Licencia, cédula y verificación</p>
+        </div>
+        <span class="material-symbols-outlined text-gray-300 dark:text-gray-600 group-active:translate-x-0.5 transition">chevron_right</span>
+      </button>
+
+      <button class="group w-full text-left bg-white dark:bg-gray-900/40 p-4 rounded-xl shadow-sm border border-gray-100/80 dark:border-gray-800/70 flex items-center gap-4 active:scale-[0.99] transition">
+        <div class="h-12 w-12 rounded-xl bg-green-50 dark:bg-green-900/25 border border-green-200/60 dark:border-green-800/50 flex items-center justify-center">
+          <span class="material-symbols-outlined text-green-600 dark:text-green-300">lock</span>
+        </div>
+        <div class="flex-1">
+          <p class="font-bold text-[#101319] dark:text-white leading-tight">Seguridad</p>
+          <p class="text-xs text-[#5b6c8b] dark:text-gray-400 mt-0.5">PIN, contraseña y 2FA</p>
+        </div>
+        <span class="material-symbols-outlined text-gray-300 dark:text-gray-600 group-active:translate-x-0.5 transition">chevron_right</span>
+      </button>
+
+      <button class="group w-full text-left bg-white dark:bg-gray-900/40 p-4 rounded-xl shadow-sm border border-gray-100/80 dark:border-gray-800/70 flex items-center gap-4 active:scale-[0.99] transition">
+        <div class="h-12 w-12 rounded-xl bg-purple-50 dark:bg-purple-900/25 border border-purple-200/60 dark:border-purple-800/50 flex items-center justify-center">
+          <span class="material-symbols-outlined text-purple-600 dark:text-purple-300">support_agent</span>
+        </div>
+        <div class="flex-1">
+          <p class="font-bold text-[#101319] dark:text-white leading-tight">Soporte</p>
+          <p class="text-xs text-[#5b6c8b] dark:text-gray-400 mt-0.5">Ayuda, tickets y chat</p>
+        </div>
+        <span class="material-symbols-outlined text-gray-300 dark:text-gray-600 group-active:translate-x-0.5 transition">chevron_right</span>
+      </button>
+
+      <button class="group w-full text-left bg-white dark:bg-gray-900/40 p-4 rounded-xl shadow-sm border border-gray-100/80 dark:border-gray-800/70 flex items-center gap-4 active:scale-[0.99] transition">
+        <div class="h-12 w-12 rounded-xl bg-amber-50 dark:bg-amber-900/25 border border-amber-200/60 dark:border-amber-800/50 flex items-center justify-center">
+          <span class="material-symbols-outlined text-amber-600 dark:text-amber-300">payments</span>
+        </div>
+        <div class="flex-1">
+          <p class="font-bold text-[#101319] dark:text-white leading-tight">Métodos de pago</p>
+          <p class="text-xs text-[#5b6c8b] dark:text-gray-400 mt-0.5">Bancos, tarjetas y retiros</p>
+        </div>
+        <span class="material-symbols-outlined text-gray-300 dark:text-gray-600 group-active:translate-x-0.5 transition">chevron_right</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="px-4 pt-6 pb-28">
+    <h3 class="text-gray-900 dark:text-white font-bold text-lg mb-3">Preferencias</h3>
+
+    <div class="rounded-xl bg-white dark:bg-gray-900/40 border border-gray-100/80 dark:border-gray-800/70 shadow-sm overflow-hidden">
+      <div class="flex items-center justify-between px-4 py-4 border-b border-gray-100 dark:border-gray-800">
+        <div class="flex items-center gap-3">
+          <div class="size-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary">notifications</span>
+          </div>
+          <div>
+            <p class="font-bold text-[#101319] dark:text-white leading-tight">Notificaciones</p>
+            <p class="text-xs text-[#5b6c8b] dark:text-gray-400">Alertas de pagos y viajes</p>
+          </div>
+        </div>
+        <input type="checkbox" class="h-5 w-10 rounded-full accent-primary" checked />
+      </div>
+
+      <div class="flex items-center justify-between px-4 py-4 border-b border-gray-100 dark:border-gray-800">
+        <div class="flex items-center gap-3">
+          <div class="size-10 rounded-xl bg-blue-50 dark:bg-blue-900/25 border border-blue-200/60 dark:border-blue-800/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary">shield</span>
+          </div>
+          <div>
+            <p class="font-bold text-[#101319] dark:text-white leading-tight">Privacidad</p>
+            <p class="text-xs text-[#5b6c8b] dark:text-gray-400">Control de datos y permisos</p>
+          </div>
+        </div>
+        <span class="material-symbols-outlined text-gray-300 dark:text-gray-600">chevron_right</span>
+      </div>
+
+      <div class="flex items-center justify-between px-4 py-4">
+        <div class="flex items-center gap-3">
+          <div class="size-10 rounded-xl bg-purple-50 dark:bg-purple-900/25 border border-purple-200/60 dark:border-purple-800/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-purple-600 dark:text-purple-300">translate</span>
+          </div>
+          <div>
+            <p class="font-bold text-[#101319] dark:text-white leading-tight">Idioma</p>
+            <p class="text-xs text-[#5b6c8b] dark:text-gray-400">Español</p>
+          </div>
+        </div>
+        <span class="material-symbols-outlined text-gray-300 dark:text-gray-600">chevron_right</span>
+      </div>
+    </div>
+
+    <button onclick="window.location.href='/login_y_selección_de_rol/code.html'" class="mt-4 w-full h-12 rounded-xl bg-white dark:bg-gray-900/40 border border-red-200/60 dark:border-red-800/40 text-red-600 dark:text-red-400 font-bold shadow-sm active:scale-[0.99] transition">
+      Cerrar sesión
+    </button>
+  </section>
+
+  <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/80 dark:bg-black/75 backdrop-blur-xl border-t border-gray-200/70 dark:border-gray-800 px-6 py-2.5 flex items-center justify-between z-50">
+    <button onclick="window.location.href='/dashboard_del_conductor_ualett/code.html'" class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500 active:text-primary transition">
+      <span class="material-symbols-outlined !text-[28px]">home</span>
+      <span class="text-[10px] font-bold">Inicio</span>
+    </button>
+
+    <button onclick="window.location.href='/billetera/code.html'" class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500 active:text-primary transition">
+      <span class="material-symbols-outlined !text-[28px]">account_balance_wallet</span>
+      <span class="text-[10px] font-medium">Billetera</span>
+    </button>
+
+    <button onclick="window.location.href='/actividad/code.html'" class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500 active:text-primary transition">
+      <span class="material-symbols-outlined !text-[28px]">analytics</span>
+      <span class="text-[10px] font-medium">Actividad</span>
+    </button>
+
+    <button class="flex flex-col items-center gap-1 text-primary">
+      <span class="material-symbols-outlined !text-[28px]">person</span>
+      <span class="text-[10px] font-medium">Perfil</span>
+    </button>
+  </nav>
+
+</body>
+</html>

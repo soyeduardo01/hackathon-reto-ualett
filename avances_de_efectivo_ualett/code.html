@@ -1,0 +1,429 @@
+<!DOCTYPE html> 
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Avances de Efectivo Ualett</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#466cb4",
+            "brand-dark": "#193F71",
+            "text-main": "#191919",
+            "background-light": "#f6f7f8",
+            "background-dark": "#15181d",
+          },
+          fontFamily: { display: ["Inter", "sans-serif"] },
+          borderRadius: { DEFAULT: "1rem", xl: "1.25rem", full: "9999px" },
+          boxShadow: {
+            soft: "0 12px 30px rgba(16,24,40,.10)",
+            card: "0 18px 55px rgba(16,24,40,.12)",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body { font-family: "Inter", sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { min-height: max(884px, 100dvh); }
+    .material-symbols-rounded { font-variation-settings: "FILL" 1, "wght" 650, "GRAD" 0, "opsz" 24; }
+
+    .ualett-bg {
+      background:
+        radial-gradient(900px 540px at 18% 12%, rgba(70,108,180,.22), transparent 56%),
+        radial-gradient(700px 420px at 88% 18%, rgba(25,63,113,.18), transparent 55%),
+        linear-gradient(180deg, #f6f7f8 0%, #ffffff 100%);
+    }
+    .glass {
+      background: rgba(255,255,255,.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-text-main font-display">
+  <div class="relative flex min-h-screen w-full flex-col max-w-[430px] mx-auto bg-white dark:bg-background-dark shadow-2xl overflow-hidden">
+
+    <div class="absolute inset-0 -z-10 ualett-bg opacity-100 dark:opacity-[0.12] pointer-events-none"></div>
+
+    <header class="sticky top-0 z-20">
+      <div class="glass dark:bg-background-dark/80 border-b border-gray-100 dark:border-gray-800">
+        <div class="flex items-center p-4 justify-between">
+          <button onclick="window.location.href='/dashboard_del_conductor_ualett/code.html'" class="text-text-main dark:text-white flex size-11 items-center justify-center rounded-full bg-white/80 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 shadow-sm active:scale-95 transition">
+            <span class="material-symbols-rounded">arrow_back_ios_new</span>
+          </button>
+
+          <div class="flex-1 text-center">
+            <p class="text-[11px] font-bold tracking-[0.22em] uppercase text-gray-400">Ualett</p>
+            <h2 class="text-text-main dark:text-white text-lg font-extrabold leading-tight tracking-tight">Avances de Efectivo</h2>
+          </div>
+
+          <button class="text-text-main dark:text-white flex size-11 items-center justify-center rounded-full bg-white/80 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 shadow-sm active:scale-95 transition">
+            <span class="material-symbols-rounded text-primary">help</span>
+          </button>
+        </div>
+
+        <div class="px-4 pb-2">
+          <div class="grid grid-cols-4 rounded-2xl bg-gray-100 dark:bg-gray-900/40 p-1 border border-gray-200/60 dark:border-gray-800">
+            <button id="tab-diario" class="tab-btn rounded-xl py-2 text-xs font-extrabold text-primary bg-white dark:bg-gray-800 shadow-sm">Diario</button>
+            <button id="tab-semanal" class="tab-btn rounded-xl py-2 text-xs font-extrabold text-gray-500 dark:text-gray-400">Semanal</button>
+            <button id="tab-mensual" class="tab-btn rounded-xl py-2 text-xs font-extrabold text-gray-500 dark:text-gray-400">Mensual</button>
+            <button id="tab-personal" class="tab-btn rounded-xl py-2 text-xs font-extrabold text-gray-500 dark:text-gray-400">Personal</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 overflow-y-auto pb-36">
+
+      <!-- Hero (Disponible) -->
+      <section class="p-4">
+        <div class="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-soft">
+          <div class="relative p-5">
+            <div class="absolute inset-0 opacity-70 pointer-events-none"
+                 style="background: radial-gradient(520px 220px at 12% 25%, rgba(70,108,180,.22), transparent 60%),
+                                  radial-gradient(520px 220px at 88% 10%, rgba(25,63,113,.18), transparent 60%);"></div>
+
+            <div class="relative flex items-start justify-between gap-4">
+              <div class="flex-1">
+                <p class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Disponible para adelanto</p>
+
+                <!-- Ajustado a cifra realista -->
+                <p class="mt-2 text-4xl font-black tracking-tighter text-brand-dark dark:text-white">$1,200.00</p>
+
+                <div class="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200/60 dark:border-green-800/40">
+                  <span class="material-symbols-rounded text-green-600 text-[18px]">verified</span>
+                  <span class="text-xs font-extrabold text-green-700 dark:text-green-300">Verificado hoy</span>
+                </div>
+
+                <p class="mt-3 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                  Basado en tu actividad reciente y tu promedio de ganancias.
+                </p>
+              </div>
+
+              <div class="shrink-0">
+                <div class="size-14 rounded-2xl bg-primary/10 border border-primary/15 grid place-items-center">
+                  <span class="material-symbols-rounded text-primary text-[28px]">account_balance_wallet</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="relative mt-5 grid grid-cols-3 gap-2">
+              <div class="rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-3">
+                <p class="text-[11px] font-bold text-gray-500 dark:text-gray-400">Promedio diario</p>
+                <p class="mt-1 text-sm font-extrabold text-gray-900 dark:text-white">$120</p>
+              </div>
+              <div class="rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-3">
+                <p class="text-[11px] font-bold text-gray-500 dark:text-gray-400">Promedio semanal</p>
+                <p class="mt-1 text-sm font-extrabold text-gray-900 dark:text-white">$840</p>
+              </div>
+              <div class="rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-3">
+                <p class="text-[11px] font-bold text-gray-500 dark:text-gray-400">Riesgo</p>
+                <p class="mt-1 text-sm font-extrabold text-green-600">Bajo</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recomendación basada en promedio -->
+      <section class="px-4">
+        <div class="rounded-2xl bg-white dark:bg-gray-900 shadow-soft border border-gray-100 dark:border-gray-800 p-4">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Recomendado para ti</p>
+              <h3 class="mt-1 text-lg font-black tracking-tight text-gray-900 dark:text-white">
+                Adelanta <span class="text-primary">$350</span> y págalo en 7 días
+              </h3>
+              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                Cifra cómoda (aprox. 40% del promedio semanal) para no apretarte.
+              </p>
+            </div>
+
+            <div class="size-11 rounded-2xl bg-primary/10 border border-primary/15 grid place-items-center">
+              <span class="material-symbols-rounded text-primary">auto_awesome</span>
+            </div>
+          </div>
+
+          <div class="mt-4 grid grid-cols-2 gap-2">
+            <div class="rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-3">
+              <p class="text-[11px] font-bold text-gray-500 dark:text-gray-400">Monto sugerido</p>
+              <p class="mt-1 text-base font-black text-gray-900 dark:text-white">$350.00</p>
+            </div>
+            <div class="rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-3">
+              <p class="text-[11px] font-bold text-gray-500 dark:text-gray-400">Devolución estimada</p>
+              <p class="mt-1 text-base font-black text-gray-900 dark:text-white">7 días</p>
+            </div>
+          </div>
+
+          <div class="mt-3 flex items-center gap-2 rounded-xl bg-primary/5 border border-primary/10 p-3">
+            <span class="material-symbols-rounded text-primary text-[18px]">tips_and_updates</span>
+            <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 leading-relaxed">
+              Si hoy estás flojo, usa “Mensual” o “Personal” para dividir la devolución.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Desglose -->
+      <section class="px-4 pt-5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-gray-900 dark:text-white text-lg font-black tracking-tight">Desglose del adelanto</h3>
+          <span class="material-symbols-rounded text-gray-400">info</span>
+        </div>
+
+        <div class="mt-3 rounded-2xl bg-white dark:bg-gray-900 shadow-soft border border-gray-100 dark:border-gray-800 overflow-hidden">
+          <div class="p-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Plan seleccionado</p>
+                <p id="planLabel" class="mt-1 text-lg font-black text-primary">Diario</p>
+              </div>
+
+              <div class="rounded-full bg-primary/10 border border-primary/10 px-3 py-1">
+                <p id="rateLabel" class="text-xs font-black text-primary">Tarifa: $4.00</p>
+              </div>
+            </div>
+
+            <div class="mt-4 grid grid-cols-2 gap-2">
+              <div class="rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-3">
+                <p class="text-[11px] font-bold text-gray-500 dark:text-gray-400">Monto a recibir</p>
+                <p id="receiveLabel" class="mt-1 text-base font-black text-gray-900 dark:text-white">$120.00</p>
+              </div>
+              <div class="rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-3">
+                <p class="text-[11px] font-bold text-gray-500 dark:text-gray-400">Total a devolver</p>
+                <p id="repayLabel" class="mt-1 text-base font-black text-gray-900 dark:text-white">$124.00</p>
+              </div>
+              <div class="rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-3">
+                <p class="text-[11px] font-bold text-gray-500 dark:text-gray-400">Débito</p>
+                <p id="debitLabel" class="mt-1 text-base font-black text-gray-900 dark:text-white">Único</p>
+              </div>
+              <div class="rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-3">
+                <p class="text-[11px] font-bold text-gray-500 dark:text-gray-400">Fecha(s)</p>
+                <p id="datesLabel" class="mt-1 text-base font-black text-gray-900 dark:text-white">Mañana</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t border-gray-100 dark:border-gray-800 p-4">
+            <p class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Calendario de pagos</p>
+
+            <div id="schedule" class="mt-3 relative pl-6 space-y-4">
+              <div class="absolute left-2 top-2 bottom-2 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
+
+              <div class="relative flex items-center justify-between">
+                <div class="absolute -left-[21px] size-4 rounded-full bg-primary border-4 border-white dark:border-gray-900"></div>
+                <div>
+                  <p class="text-sm font-extrabold text-gray-900 dark:text-white">Pago único (mañana)</p>
+                  <p class="text-xs text-gray-500">Débito automático</p>
+                </div>
+                <p class="text-sm font-extrabold text-gray-900 dark:text-white">$124.00</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Personal -->
+      <section id="customBlock" class="px-4 pt-5 hidden">
+        <div class="rounded-2xl bg-white dark:bg-gray-900 shadow-soft border border-gray-100 dark:border-gray-800 p-4">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Personal</p>
+              <h4 class="mt-1 text-lg font-black tracking-tight text-gray-900 dark:text-white">Elige tu monto</h4>
+              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                Máximo disponible: $1,200. Se recomienda mantenerlo cómodo para tu devolución.
+              </p>
+            </div>
+            <div class="size-11 rounded-2xl bg-primary/10 border border-primary/15 grid place-items-center">
+              <span class="material-symbols-rounded text-primary">tune</span>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-xs font-bold text-gray-500">Monto</p>
+              <p id="customValue" class="text-sm font-black text-primary">$350</p>
+            </div>
+
+            <!-- Ajustado: min y max realistas -->
+            <input id="customRange" type="range" min="50" max="1200" value="350" class="w-full accent-primary" />
+            <div class="mt-3 flex items-center justify-between text-[11px] font-bold text-gray-400">
+              <span>$50</span>
+              <span>$1,200</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="px-4 py-5">
+        <div class="flex gap-4 p-4 rounded-2xl bg-primary/5 border border-primary/10 items-start">
+          <span class="material-symbols-rounded text-primary mt-0.5">verified_user</span>
+          <div class="flex flex-col gap-1">
+            <p class="text-text-main dark:text-white text-sm font-black">Esto no es un préstamo tradicional</p>
+            <p class="text-gray-600 dark:text-gray-400 text-xs leading-relaxed">
+              Es un adelanto de tus ingresos futuros basado en tu actividad. Sin intereses ocultos, solo una tarifa por servicio transparente.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="fixed bottom-0 w-full max-w-[430px] p-5 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-t border-gray-100 dark:border-gray-800">
+      <button onclick="window.location.href='/avances_de_efectivo_ualett/code02.html'" class="w-full bg-primary hover:bg-primary/90 text-white font-black py-4 rounded-2xl shadow-lg shadow-primary/30 flex items-center justify-center gap-2 transition-all active:scale-[0.99]">
+        <span>Solicitar Adelanto</span>
+        <span class="material-symbols-rounded text-xl">trending_flat</span>
+      </button>
+      <div class="mt-3 flex justify-center">
+        <div class="h-1.5 w-32 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Cifras estáticas realistas y consistentes con:
+    // promedio diario $120, semanal $840, disponible $1,200
+    const plans = {
+      diario: {
+        plan: "Diario",
+        receive: 120,
+        fee: 4,
+        repay: 124,
+        debit: "Único",
+        dates: "Mañana",
+        schedule: [{ label: "Pago único (mañana)", amount: 124 }]
+      },
+      semanal: {
+        plan: "Semanal",
+        receive: 350,
+        fee: 12,
+        repay: 362,
+        debit: "2 pagos",
+        dates: "7 días",
+        schedule: [
+          { label: "Pago 1 (3 días)", amount: 181 },
+          { label: "Pago 2 (7 días)", amount: 181 }
+        ]
+      },
+      mensual: {
+        plan: "Mensual",
+        receive: 700,
+        fee: 28,
+        repay: 728,
+        debit: "4 pagos",
+        dates: "30 días",
+        schedule: [
+          { label: "Semana 1", amount: 182 },
+          { label: "Semana 2", amount: 182 },
+          { label: "Semana 3", amount: 182 },
+          { label: "Semana 4", amount: 182 }
+        ]
+      },
+      personal: {
+        plan: "Personal",
+        receive: 350,
+        fee: 12,
+        repay: 362,
+        debit: "Flexible",
+        dates: "A elegir",
+        schedule: [{ label: "Pago flexible", amount: 362 }]
+      },
+    };
+
+    const btns = {
+      diario: document.getElementById("tab-diario"),
+      semanal: document.getElementById("tab-semanal"),
+      mensual: document.getElementById("tab-mensual"),
+      personal: document.getElementById("tab-personal"),
+    };
+
+    const planLabel = document.getElementById("planLabel");
+    const rateLabel = document.getElementById("rateLabel");
+    const receiveLabel = document.getElementById("receiveLabel");
+    const repayLabel = document.getElementById("repayLabel");
+    const debitLabel = document.getElementById("debitLabel");
+    const datesLabel = document.getElementById("datesLabel");
+    const schedule = document.getElementById("schedule");
+    const customBlock = document.getElementById("customBlock");
+    const customRange = document.getElementById("customRange");
+    const customValue = document.getElementById("customValue");
+
+    function money(n) {
+      return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function setActive(key) {
+      Object.keys(btns).forEach(k => {
+        btns[k].classList.remove("bg-white","dark:bg-gray-800","shadow-sm","text-primary");
+        btns[k].classList.add("text-gray-500","dark:text-gray-400");
+      });
+
+      btns[key].classList.add("bg-white","dark:bg-gray-800","shadow-sm","text-primary");
+      btns[key].classList.remove("text-gray-500","dark:text-gray-400");
+
+      const p = plans[key];
+      planLabel.textContent = p.plan;
+      rateLabel.textContent = `Tarifa: ${money(p.fee)}`;
+      receiveLabel.textContent = money(p.receive);
+      repayLabel.textContent = money(p.repay);
+      debitLabel.textContent = p.debit;
+      datesLabel.textContent = p.dates;
+
+      schedule.innerHTML = `
+        <div class="absolute left-2 top-2 bottom-2 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
+        ${p.schedule.map((s, idx) => `
+          <div class="relative flex items-center justify-between">
+            <div class="absolute -left-[21px] size-4 rounded-full ${idx === 0 ? "bg-primary" : "bg-gray-300 dark:bg-gray-600"} border-4 border-white dark:border-gray-900"></div>
+            <div>
+              <p class="text-sm font-extrabold text-gray-900 dark:text-white">${s.label}</p>
+              <p class="text-xs text-gray-500">Débito automático</p>
+            </div>
+            <p class="text-sm font-extrabold text-gray-900 dark:text-white">${money(s.amount)}</p>
+          </div>
+        `).join("")}
+      `;
+
+      customBlock.classList.toggle("hidden", key !== "personal");
+      if (key === "personal" && customRange) {
+        customRange.value = plans.personal.receive;
+        customValue.textContent = "$" + Number(customRange.value).toLocaleString("en-US");
+      }
+    }
+
+    btns.diario.addEventListener("click", () => setActive("diario"));
+    btns.semanal.addEventListener("click", () => setActive("semanal"));
+    btns.mensual.addEventListener("click", () => setActive("mensual"));
+    btns.personal.addEventListener("click", () => setActive("personal"));
+
+    // Personal: tarifa consistente (3% + $2), tope 1200
+    customRange?.addEventListener("input", (e) => {
+      const val = Number(e.target.value || 0);
+      customValue.textContent = "$" + val.toLocaleString("en-US");
+
+      const fee = Math.round((val * 0.03 + 2) * 100) / 100;
+      const repay = Math.round((val + fee) * 100) / 100;
+
+      plans.personal.receive = val;
+      plans.personal.fee = fee;
+      plans.personal.repay = repay;
+      plans.personal.schedule = [{ label: "Pago flexible", amount: repay }];
+
+      if (planLabel.textContent === "Personal") setActive("personal");
+    });
+
+    setActive("diario");
+  </script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Selección de Experiencia Go y Eats</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#466cb4",
+                        "brand-dark": "#193F71",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#15181d",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-screen w-full flex-col overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-10">
+<div class="text-[#111318] dark:text-white flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined text-2xl">account_circle</span>
+</div>
+<h2 class="text-brand-dark dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Ualett</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-transparent text-[#111318] dark:text-white gap-2 text-base font-bold leading-normal p-0">
+<span class="material-symbols-outlined text-2xl">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content Scrollable Area -->
+<main class="flex-1 overflow-y-auto">
+<!-- HeadlineText -->
+<div class="px-4 pt-6 pb-2">
+<h1 class="text-brand-dark dark:text-white tracking-tight text-[28px] font-bold leading-tight text-left">
+                    Selecciona tu experiencia
+                </h1>
+<p class="text-[#5e6d87] dark:text-gray-400 text-sm mt-1">¿Qué necesitas hoy?</p>
+</div>
+<!-- Experience Selection Cards -->
+<div class="p-4 space-y-4 @container">
+<!-- Ualett Go - Card -->
+<div class="flex flex-col items-stretch justify-start rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] bg-white dark:bg-[#1f2329] border border-gray-100 dark:border-gray-800 overflow-hidden">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="Sleek modern white car driving in city" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCoJeP7reoUDpVIKU6_NFtsAirEoIi-KLnEQVfLa-a__r_X_MADYb6NqWzcVLOYhUqSpRh-lESsfI2oAKZKrNkG6aVqzuNC3MXLsh318Q5Vk_tFatxS3nbncHRRf6QDc1Gqmp4uppOFUAsbGs8wGHuIB-FqpvqdgtwpSbi4c1pIOy4re-k_6SsTo1asbkFG8ZnPa1UU-Ry1XMoYRFQItkIPzhr2iQtnoY4gi6SDPQzTXTKmiikER8tltMS3sNPFHO1ylIpGMzBzWPbz");'>
+<div class="w-full h-full bg-gradient-to-t from-black/40 to-transparent flex items-end p-4">
+<div class="bg-white/90 dark:bg-black/80 p-2 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">local_taxi</span>
+</div>
+</div>
+</div>
+<div class="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-1 py-5 px-5">
+<p class="text-brand-dark dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">Ualett Go – Taxi</p>
+<div class="flex flex-col sm:flex-row sm:items-center gap-4 justify-between mt-1">
+<p class="text-[#5e6d87] dark:text-gray-400 text-base font-normal leading-normal">Viajes rápidos y seguros en la ciudad</p>
+<button class="flex min-w-[140px] max-w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-5 bg-primary text-white text-sm font-semibold leading-normal transition-opacity active:opacity-80">
+<span class="truncate">Solicitar viaje</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Ualett Eats - Card -->
+<div class="flex flex-col items-stretch justify-start rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] bg-white dark:bg-[#1f2329] border border-gray-100 dark:border-gray-800 overflow-hidden">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="Delicious gourmet burger and fries on table" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAkzAjq1e91BThRxVJx-WxnIsrsY_HNhnrXQ4Xw62QkNOqYGXWgSA39FEDrLm_n0BYaa96az9cEJWGLElXNOxQgBJYMpHcLoa-HXv4j56784MBMeTSipHxusdZ14U7dnzoXYN3IP1_N6P_tWZjsRwtXgwgNNIfhmXg6cxZNKE5arOfsB1649VTrh2CdIfImo2batZLJuaXGxtmqEJqrB5H1ZqMGtXsfurdXPHEGuWBv8sNFiew1H281Mcm4IXEOXgZW8IMabRHSJO7n");'>
+<div class="w-full h-full bg-gradient-to-t from-black/40 to-transparent flex items-end p-4">
+<div class="bg-white/90 dark:bg-black/80 p-2 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">shopping_bag</span>
+</div>
+</div>
+</div>
+<div class="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-1 py-5 px-5">
+<p class="text-brand-dark dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">Ualett Eats – Food Delivery</p>
+<div class="flex flex-col sm:flex-row sm:items-center gap-4 justify-between mt-1">
+<p class="text-[#5e6d87] dark:text-gray-400 text-base font-normal leading-normal">Tus platos favoritos a domicilio</p>
+<button class="flex min-w-[140px] max-w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-5 bg-primary text-white text-sm font-semibold leading-normal transition-opacity active:opacity-80">
+<span class="truncate">Pedir comida</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="h-24"></div> <!-- Spacer for BottomNav -->
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 right-0 z-20 border-t border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-lg px-4 pb-6 pt-2">
+<div class="flex max-w-lg mx-auto gap-2">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 rounded-full text-primary" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'FILL' 1;">home</span>
+</div>
+<p class="text-xs font-semibold leading-normal tracking-[0.015em]">Home</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-[#5e6d87] dark:text-gray-400" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-[26px]">directions_car</span>
+</div>
+<p class="text-xs font-medium leading-normal tracking-[0.015em]">Viajes</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-[#5e6d87] dark:text-gray-400" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-[26px]">restaurant</span>
+</div>
+<p class="text-xs font-medium leading-normal tracking-[0.015em]">Pedidos</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-[#5e6d87] dark:text-gray-400" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-[26px]">account_balance_wallet</span>
+</div>
+<p class="text-xs font-medium leading-normal tracking-[0.015em]">Billetera</p>
+</a>
+</div>
+</nav>
+</div>
+</body></html>

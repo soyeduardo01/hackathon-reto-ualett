@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Historial (Ualett)</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#466cb4",
+            "brand-dark": "#193F71",
+            "text-main": "#191919",
+            "background-light": "#f6f7f8",
+            "background-dark": "#15181d",
+            gold: "#C8A44A",
+          },
+          fontFamily: { display: ["Inter", "sans-serif"] },
+          borderRadius: { DEFAULT: "1rem", xl: "1.25rem", full: "9999px" },
+          boxShadow: {
+            soft: "0 12px 30px rgba(16,24,40,.10)",
+            card: "0 18px 55px rgba(16,24,40,.12)",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body { font-family: "Inter", sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { min-height: max(884px, 100dvh); }
+    .material-symbols-rounded { font-variation-settings: "FILL" 1, "wght" 650, "GRAD" 0, "opsz" 24; }
+
+    .ualett-bg {
+      background:
+        radial-gradient(900px 540px at 18% 12%, rgba(70,108,180,.22), transparent 56%),
+        radial-gradient(700px 420px at 88% 18%, rgba(25,63,113,.18), transparent 55%),
+        linear-gradient(180deg, #f6f7f8 0%, #ffffff 100%);
+    }
+    .glass {
+      background: rgba(255,255,255,.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    /* Tabs */
+    .tab-btn[aria-selected="true"] {
+      background: rgba(70,108,180,.12);
+      border-color: rgba(70,108,180,.22);
+      color: #193F71;
+    }
+    .dark .tab-btn[aria-selected="true"] {
+      background: rgba(70,108,180,.20);
+      border-color: rgba(70,108,180,.28);
+      color: #dbeafe;
+    }
+    .tab-panel[hidden] { display: none !important; }
+
+    /* Bottom sheet */
+    .sheet {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease;
+    }
+    .sheet[data-open="true"] {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .sheet-card {
+      transform: translateY(18px);
+      transition: transform 220ms ease;
+    }
+    .sheet[data-open="true"] .sheet-card {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-text-main font-display">
+  <div class="relative flex min-h-screen w-full flex-col max-w-[430px] mx-auto bg-white dark:bg-background-dark shadow-2xl overflow-hidden">
+    <div class="absolute inset-0 -z-10 ualett-bg opacity-100 dark:opacity-[0.12] pointer-events-none"></div>
+
+    <!-- TopAppBar -->
+    <header class="sticky top-0 z-20">
+      <div class="glass dark:bg-background-dark/80 border-b border-gray-100 dark:border-gray-800">
+        <div class="flex items-center p-4 justify-between">
+          <button onclick="window.location.href='/billetera/code.html'"
+                  class="text-text-main dark:text-white flex size-11 items-center justify-center rounded-full bg-white/80 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 shadow-sm active:scale-95 transition">
+            <span class="material-symbols-rounded">arrow_back_ios_new</span>
+          </button>
+
+          <div class="flex-1 text-center">
+            <p class="text-[11px] font-black tracking-[0.22em] uppercase text-gray-400">Ualett</p>
+            <h2 class="text-text-main dark:text-white text-lg font-extrabold leading-tight tracking-tight">Historial</h2>
+          </div>
+
+          <button id="filtersBtn"
+                  class="text-text-main dark:text-white flex size-11 items-center justify-center rounded-full bg-white/80 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 shadow-sm active:scale-95 transition">
+            <span class="material-symbols-rounded text-primary">tune</span>
+          </button>
+        </div>
+
+        <!-- Search + Chips -->
+        <div class="px-4 pb-4">
+          <div class="flex items-center gap-2">
+            <div class="flex-1 relative">
+              <input id="searchInput" type="text" placeholder="Buscador..."
+                     class="w-full h-12 pl-5 pr-4 rounded-2xl bg-white/80 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 shadow-sm text-sm font-semibold placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-primary/25"/>
+            </div>
+            <button 
+                    class="h-12 px-4 rounded-2xl bg-primary text-white font-black shadow-lg shadow-primary/25 flex items-center gap-2 active:scale-[0.99] transition">
+              <span class="material-symbols-rounded">search</span>
+            </button>
+          </div>
+
+          <div class="mt-3 flex items-center gap-2 overflow-x-auto no-scrollbar">
+            <button class="rangeChip shrink-0 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 text-[11px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.98] transition"
+                    data-range="7" type="button">7 días</button>
+            <button class="rangeChip shrink-0 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 text-[11px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.98] transition"
+                    data-range="30" type="button">30 días</button>
+            <button class="rangeChip shrink-0 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 text-[11px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.98] transition"
+                    data-range="90" type="button">90 días</button>
+            <button class="rangeChip shrink-0 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 text-[11px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.98] transition"
+                    data-range="all" type="button">Todo</button>
+
+            <span class="ml-auto text-[11px] font-black text-gray-400 shrink-0" id="activeRangeText">Rango: 30 días</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 overflow-y-auto pb-28">
+
+      <!-- Resumen -->
+      <section class="p-4 pt-4">
+        <div class="rounded-2xl bg-white/85 dark:bg-gray-900/45 border border-gray-100 dark:border-gray-800 shadow-soft overflow-hidden">
+          <div class="p-4">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-[11px] font-black tracking-[0.22em] uppercase text-gray-400">Resumen</p>
+                <h3 class="text-gray-900 dark:text-white font-black text-lg tracking-tight">Movimientos recientes</h3>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                  Filtra por tipo (ingresos, retiros o avances) y toca un movimiento para ver detalles.
+                </p>
+              </div>
+              <div class="size-11 rounded-2xl bg-primary/10 border border-primary/15 grid place-items-center">
+                <span class="material-symbols-rounded text-primary">history</span>
+              </div>
+            </div>
+
+            <div class="mt-4 grid grid-cols-3 gap-2">
+              <div class="rounded-xl bg-emerald-50 dark:bg-emerald-900/15 border border-emerald-200/60 dark:border-emerald-800/40 p-3">
+                <p class="text-[11px] font-black text-emerald-700 dark:text-emerald-300">Ingresos</p>
+                <p class="mt-1 text-sm font-black text-gray-900 dark:text-white" id="sumIncome">$142.50</p>
+              </div>
+              <div class="rounded-xl bg-blue-50 dark:bg-blue-900/15 border border-blue-200/60 dark:border-blue-800/40 p-3">
+                <p class="text-[11px] font-black text-primary">Retiros</p>
+                <p class="mt-1 text-sm font-black text-gray-900 dark:text-white" id="sumWithdraw">$80.00</p>
+              </div>
+              <div class="rounded-xl bg-amber-50 dark:bg-amber-900/15 border border-amber-200/60 dark:border-amber-800/40 p-3">
+                <p class="text-[11px] font-black text-amber-700 dark:text-amber-300">Avances</p>
+                <p class="mt-1 text-sm font-black text-gray-900 dark:text-white" id="sumAdvance">$150.00</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <div class="border-t border-gray-100 dark:border-gray-800 p-4">
+            <div class="grid grid-cols-3 gap-2 p-2 rounded-2xl bg-white/70 dark:bg-black/20 border border-gray-100 dark:border-gray-800">
+              <button class="tab-btn h-10 rounded-xl border border-gray-200/70 dark:border-gray-800 text-[12px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.99] transition"
+                      data-tab="income" aria-selected="true" type="button">
+                Ingresos
+              </button>
+              <button class="tab-btn h-10 rounded-xl border border-gray-200/70 dark:border-gray-800 text-[12px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.99] transition"
+                      data-tab="withdraw" aria-selected="false" type="button">
+                Retiros
+              </button>
+              <button class="tab-btn h-10 rounded-xl border border-gray-200/70 dark:border-gray-800 text-[12px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.99] transition"
+                      data-tab="advance" aria-selected="false" type="button">
+                Avances
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Listas -->
+      <section class="px-4 pb-6">
+        <!-- Ingresos -->
+        <div class="tab-panel" id="panel-income">
+          <div class="space-y-3" id="list-income">
+
+            <!-- Item -->
+            <button class="tx-item w-full text-left rounded-2xl bg-white dark:bg-gray-900/45 border border-gray-100 dark:border-gray-800 shadow-soft p-4 flex items-start gap-3 active:scale-[0.99] transition"
+                    data-type="income" data-amount="18.50" data-date="Hoy, 4:12 PM" data-ref="INC-28419" data-status="Confirmado" data-note="Propina incluida">
+              <div class="size-12 rounded-2xl bg-emerald-50 dark:bg-emerald-900/15 border border-emerald-200/60 dark:border-emerald-800/40 grid place-items-center shrink-0">
+                <span class="material-symbols-rounded text-emerald-600 dark:text-emerald-300">paid</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                  <p class="font-black text-gray-900 dark:text-white truncate">Entrega completada</p>
+                  <p class="font-black text-emerald-700 dark:text-emerald-300 shrink-0">+$18.50</p>
+                </div>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Hoy, 4:12 PM (INC-28419)</p>
+                <div class="mt-2 flex items-center gap-2">
+                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/15 border border-emerald-200/60 dark:border-emerald-800/40">
+                    <span class="size-2 rounded-full bg-emerald-500"></span>
+                    <span class="text-[11px] font-black text-emerald-700 dark:text-emerald-300">Confirmado</span>
+                  </span>
+                  <span class="text-[11px] font-black text-gray-400">Propina incluida</span>
+                </div>
+              </div>
+              <span class="material-symbols-rounded text-gray-300 dark:text-gray-600">chevron_right</span>
+            </button>
+
+            <button class="tx-item w-full text-left rounded-2xl bg-white dark:bg-gray-900/45 border border-gray-100 dark:border-gray-800 shadow-soft p-4 flex items-start gap-3 active:scale-[0.99] transition"
+                    data-type="income" data-amount="24.00" data-date="Ayer, 7:40 PM" data-ref="INC-28311" data-status="Confirmado" data-note="Viaje Ualett Go">
+              <div class="size-12 rounded-2xl bg-emerald-50 dark:bg-emerald-900/15 border border-emerald-200/60 dark:border-emerald-800/40 grid place-items-center shrink-0">
+                <span class="material-symbols-rounded text-emerald-600 dark:text-emerald-300">directions_car</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                  <p class="font-black text-gray-900 dark:text-white truncate">Viaje completado</p>
+                  <p class="font-black text-emerald-700 dark:text-emerald-300 shrink-0">+$24.00</p>
+                </div>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Ayer, 7:40 PM (INC-28311)</p>
+                <div class="mt-2 flex items-center gap-2">
+                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/15 border border-emerald-200/60 dark:border-emerald-800/40">
+                    <span class="size-2 rounded-full bg-emerald-500"></span>
+                    <span class="text-[11px] font-black text-emerald-700 dark:text-emerald-300">Confirmado</span>
+                  </span>
+                  <span class="text-[11px] font-black text-gray-400">Ualett Go</span>
+                </div>
+              </div>
+              <span class="material-symbols-rounded text-gray-300 dark:text-gray-600">chevron_right</span>
+            </button>
+
+            <button class="tx-item w-full text-left rounded-2xl bg-white dark:bg-gray-900/45 border border-gray-100 dark:border-gray-800 shadow-soft p-4 flex items-start gap-3 active:scale-[0.99] transition"
+                    data-type="income" data-amount="12.75" data-date="Ene 29, 10:02 AM" data-ref="INC-28190" data-status="En proceso" data-note="Pendiente de verificación">
+              <div class="size-12 rounded-2xl bg-emerald-50 dark:bg-emerald-900/15 border border-emerald-200/60 dark:border-emerald-800/40 grid place-items-center shrink-0">
+                <span class="material-symbols-rounded text-emerald-600 dark:text-emerald-300">restaurant</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                  <p class="font-black text-gray-900 dark:text-white truncate">Entrega en revisión</p>
+                  <p class="font-black text-emerald-700 dark:text-emerald-300 shrink-0">+$12.75</p>
+                </div>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Ene 29, 10:02 AM (INC-28190)</p>
+                <div class="mt-2 flex items-center gap-2">
+                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-900/15 border border-amber-200/60 dark:border-amber-800/40">
+                    <span class="size-2 rounded-full bg-amber-500"></span>
+                    <span class="text-[11px] font-black text-amber-700 dark:text-amber-300">En proceso</span>
+                  </span>
+                  <span class="text-[11px] font-black text-gray-400">Pendiente de verificación</span>
+                </div>
+              </div>
+              <span class="material-symbols-rounded text-gray-300 dark:text-gray-600">chevron_right</span>
+            </button>
+
+          </div>
+
+          <div class="mt-4 rounded-2xl bg-primary/5 border border-primary/10 p-4 flex items-start gap-3">
+            <span class="material-symbols-rounded text-primary mt-0.5">info</span>
+            <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 leading-relaxed">
+              Los ingresos pueden aparecer como "En proceso" hasta completar la verificación del viaje o entrega.
+            </p>
+          </div>
+        </div>
+
+        <!-- Retiros -->
+        <div class="tab-panel" id="panel-withdraw" hidden>
+          <div class="space-y-3" id="list-withdraw">
+
+            <button class="tx-item w-full text-left rounded-2xl bg-white dark:bg-gray-900/45 border border-gray-100 dark:border-gray-800 shadow-soft p-4 flex items-start gap-3 active:scale-[0.99] transition"
+                    data-type="withdraw" data-amount="50.00" data-date="Hoy, 1:20 PM" data-ref="RET-11002" data-status="Procesado" data-note="Depósito a banco">
+              <div class="size-12 rounded-2xl bg-blue-50 dark:bg-blue-900/15 border border-blue-200/60 dark:border-blue-800/40 grid place-items-center shrink-0">
+                <span class="material-symbols-rounded text-primary">account_balance</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                  <p class="font-black text-gray-900 dark:text-white truncate">Retiro a banco</p>
+                  <p class="font-black text-primary shrink-0">-$50.00</p>
+                </div>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Hoy, 1:20 PM (RET-11002)</p>
+                <div class="mt-2 flex items-center gap-2">
+                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 dark:bg-blue-900/15 border border-blue-200/60 dark:border-blue-800/40">
+                    <span class="size-2 rounded-full bg-primary"></span>
+                    <span class="text-[11px] font-black text-primary">Procesado</span>
+                  </span>
+                  <span class="text-[11px] font-black text-gray-400">Depósito a banco</span>
+                </div>
+              </div>
+              <span class="material-symbols-rounded text-gray-300 dark:text-gray-600">chevron_right</span>
+            </button>
+
+            <button class="tx-item w-full text-left rounded-2xl bg-white dark:bg-gray-900/45 border border-gray-100 dark:border-gray-800 shadow-soft p-4 flex items-start gap-3 active:scale-[0.99] transition"
+                    data-type="withdraw" data-amount="30.00" data-date="Ene 28, 6:10 PM" data-ref="RET-10940" data-status="En tránsito" data-note="Tarjeta (inmediato)">
+              <div class="size-12 rounded-2xl bg-blue-50 dark:bg-blue-900/15 border border-blue-200/60 dark:border-blue-800/40 grid place-items-center shrink-0">
+                <span class="material-symbols-rounded text-primary">credit_card</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                  <p class="font-black text-gray-900 dark:text-white truncate">Retiro a tarjeta</p>
+                  <p class="font-black text-primary shrink-0">-$30.00</p>
+                </div>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Ene 28, 6:10 PM (RET-10940)</p>
+                <div class="mt-2 flex items-center gap-2">
+                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-900/15 border border-amber-200/60 dark:border-amber-800/40">
+                    <span class="size-2 rounded-full bg-amber-500"></span>
+                    <span class="text-[11px] font-black text-amber-700 dark:text-amber-300">En tránsito</span>
+                  </span>
+                  <span class="text-[11px] font-black text-gray-400">Tarjeta (inmediato)</span>
+                </div>
+              </div>
+              <span class="material-symbols-rounded text-gray-300 dark:text-gray-600">chevron_right</span>
+            </button>
+
+          </div>
+
+          <div class="mt-4 rounded-2xl bg-primary/5 border border-primary/10 p-4 flex items-start gap-3">
+            <span class="material-symbols-rounded text-primary mt-0.5">verified_user</span>
+            <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 leading-relaxed">
+              Algunos retiros pueden tardar de 1 a 2 días según el método seleccionado y validaciones.
+            </p>
+          </div>
+        </div>
+
+        <!-- Avances -->
+        <div class="tab-panel" id="panel-advance" hidden>
+          <div class="space-y-3" id="list-advance">
+
+            <button class="tx-item w-full text-left rounded-2xl bg-white dark:bg-gray-900/45 border border-gray-100 dark:border-gray-800 shadow-soft p-4 flex items-start gap-3 active:scale-[0.99] transition"
+                    data-type="advance" data-amount="150.00" data-date="Hoy, 9:10 AM" data-ref="ADV-70021" data-status="Activo" data-note="Flex Advance">
+              <div class="size-12 rounded-2xl bg-amber-50 dark:bg-amber-900/15 border border-amber-200/60 dark:border-amber-800/40 grid place-items-center shrink-0">
+                <span class="material-symbols-rounded text-amber-600 dark:text-amber-300">bolt</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                  <p class="font-black text-gray-900 dark:text-white truncate">Flex Advance</p>
+                  <p class="font-black text-amber-700 dark:text-amber-300 shrink-0">+$150.00</p>
+                </div>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Hoy, 9:10 AM (ADV-70021)</p>
+                <div class="mt-2 flex items-center gap-2">
+                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-900/15 border border-amber-200/60 dark:border-amber-800/40">
+                    <span class="size-2 rounded-full bg-amber-500"></span>
+                    <span class="text-[11px] font-black text-amber-700 dark:text-amber-300">Activo</span>
+                  </span>
+                  <span class="text-[11px] font-black text-gray-400">Se descuenta con actividad</span>
+                </div>
+              </div>
+              <span class="material-symbols-rounded text-gray-300 dark:text-gray-600">chevron_right</span>
+            </button>
+
+            <button class="tx-item w-full text-left rounded-2xl bg-white dark:bg-gray-900/45 border border-gray-100 dark:border-gray-800 shadow-soft p-4 flex items-start gap-3 active:scale-[0.99] transition"
+                    data-type="advance" data-amount="80.00" data-date="Ene 27, 3:05 PM" data-ref="ADV-69940" data-status="Cerrado" data-note="Avance semanal">
+              <div class="size-12 rounded-2xl bg-amber-50 dark:bg-amber-900/15 border border-amber-200/60 dark:border-amber-800/40 grid place-items-center shrink-0">
+                <span class="material-symbols-rounded text-amber-600 dark:text-amber-300">request_quote</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                  <p class="font-black text-gray-900 dark:text-white truncate">Avance semanal</p>
+                  <p class="font-black text-amber-700 dark:text-amber-300 shrink-0">+$80.00</p>
+                </div>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Ene 27, 3:05 PM (ADV-69940)</p>
+                <div class="mt-2 flex items-center gap-2">
+                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700">
+                    <span class="size-2 rounded-full bg-gray-400"></span>
+                    <span class="text-[11px] font-black text-gray-700 dark:text-gray-200">Cerrado</span>
+                  </span>
+                  <span class="text-[11px] font-black text-gray-400">Pagado con entregas</span>
+                </div>
+              </div>
+              <span class="material-symbols-rounded text-gray-300 dark:text-gray-600">chevron_right</span>
+            </button>
+
+          </div>
+
+          <div class="mt-4 rounded-2xl bg-primary/5 border border-primary/10 p-4 flex items-start gap-3">
+            <span class="material-symbols-rounded text-primary mt-0.5">info</span>
+            <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 leading-relaxed">
+              Los avances se liquidan con tu actividad (según el plan seleccionado). Te mostramos el estado en cada movimiento.
+            </p>
+          </div>
+        </div>
+
+        <!-- Empty state (oculto por defecto) -->
+        <div id="emptyState" class="hidden mt-4 rounded-2xl bg-white/85 dark:bg-gray-900/45 border border-gray-100 dark:border-gray-800 shadow-soft p-6 text-center">
+          <div class="mx-auto size-14 rounded-2xl bg-primary/10 border border-primary/15 grid place-items-center">
+            <span class="material-symbols-rounded text-primary text-[28px]">search_off</span>
+          </div>
+          <p class="mt-3 text-gray-900 dark:text-white font-black">Sin resultados</p>
+          <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+            Prueba cambiando el rango o el texto de búsqueda.
+          </p>
+        </div>
+
+      </section>
+    </main>
+
+    <!-- Bottom Nav (activo: Billetera o Actividad, ajusta como quieras) -->
+    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-white/85 dark:bg-black/70 backdrop-blur-xl border-t border-gray-200/70 dark:border-gray-800 px-6 py-2.5 flex items-center justify-between z-50">
+      <button onclick="window.location.href='/dashboard_del_conductor_ualett/code.html'" class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500 active:text-primary transition">
+        <span class="material-symbols-rounded !text-[28px]">home</span>
+        <span class="text-[10px] font-black">Inicio</span>
+      </button>
+
+      <button onclick="window.location.href='/billetera/code.html'" class="flex flex-col items-center gap-1 text-primary">
+        <span class="material-symbols-rounded !text-[28px]">account_balance_wallet</span>
+        <span class="text-[10px] font-black">Billetera</span>
+      </button>
+
+      <button onclick="window.location.href='/actividad/code.html'" class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500 active:text-primary transition">
+        <span class="material-symbols-rounded !text-[28px]">analytics</span>
+        <span class="text-[10px] font-black">Actividad</span>
+      </button>
+
+      <button onclick="window.location.href='/perfil/code.html'" class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500 active:text-primary transition">
+        <span class="material-symbols-rounded !text-[28px]">person</span>
+        <span class="text-[10px] font-black">Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Bottom sheet: Filtros -->
+  <div id="filtersSheet" class="sheet fixed inset-0 z-[60] flex items-end justify-center">
+    <div class="absolute inset-0 bg-black/40" data-sheet-close="true"></div>
+
+    <div class="sheet-card w-full max-w-[430px] rounded-t-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-2xl">
+      <div class="p-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-[11px] font-black tracking-[0.22em] uppercase text-gray-400">Filtros</p>
+            <h4 class="text-gray-900 dark:text-white font-black text-lg">Refina tu historial</h4>
+          </div>
+          <button class="size-11 rounded-full bg-white/80 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 grid place-items-center active:scale-95 transition"
+                  data-sheet-close="true" type="button">
+            <span class="material-symbols-rounded text-gray-600 dark:text-gray-300">close</span>
+          </button>
+        </div>
+
+        <div class="mt-4 space-y-3">
+          <div class="rounded-2xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-4">
+            <p class="text-xs font-black text-gray-900 dark:text-white">Estado</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <button class="statusChip px-3 py-1.5 rounded-full bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-[11px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.98] transition"
+                      data-status="all" type="button" aria-selected="true">Todos</button>
+              <button class="statusChip px-3 py-1.5 rounded-full bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-[11px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.98] transition"
+                      data-status="Confirmado" type="button">Confirmado</button>
+              <button class="statusChip px-3 py-1.5 rounded-full bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-[11px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.98] transition"
+                      data-status="En proceso" type="button">En proceso</button>
+              <button class="statusChip px-3 py-1.5 rounded-full bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-[11px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.98] transition"
+                      data-status="Procesado" type="button">Procesado</button>
+              <button class="statusChip px-3 py-1.5 rounded-full bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-[11px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.98] transition"
+                      data-status="Activo" type="button">Activo</button>
+              <button class="statusChip px-3 py-1.5 rounded-full bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-[11px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.98] transition"
+                      data-status="Cerrado" type="button">Cerrado</button>
+            </div>
+          </div>
+
+          <div class="rounded-2xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-4">
+            <p class="text-xs font-black text-gray-900 dark:text-white">Monto</p>
+            <div class="mt-3 grid grid-cols-2 gap-2">
+              <input id="minAmount" type="number" inputmode="decimal" placeholder="Mínimo"
+                     class="h-12 rounded-2xl bg-white/80 dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 px-4 text-sm font-black outline-none focus:ring-2 focus:ring-primary/25"/>
+              <input id="maxAmount" type="number" inputmode="decimal" placeholder="Máximo"
+                     class="h-12 rounded-2xl bg-white/80 dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 px-4 text-sm font-black outline-none focus:ring-2 focus:ring-primary/25"/>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <button id="clearFiltersBtn"
+                    class="h-12 rounded-2xl bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-gray-900 dark:text-white font-black shadow-soft active:scale-[0.99] transition"
+                    type="button">
+              Limpiar
+            </button>
+            <button id="applyFiltersBtn"
+                    class="h-12 rounded-2xl bg-primary text-white font-black shadow-lg shadow-primary/25 active:scale-[0.99] transition"
+                    type="button">
+              Aplicar
+            </button>
+          </div>
+
+          <p class="text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed pb-1">
+            Esto es demo visual. Luego conectas API y datos reales.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom sheet: Detalle -->
+  <div id="detailSheet" class="sheet fixed inset-0 z-[60] flex items-end justify-center">
+    <div class="absolute inset-0 bg-black/40" data-detail-close="true"></div>
+
+    <div class="sheet-card w-full max-w-[430px] rounded-t-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-2xl">
+      <div class="p-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-[11px] font-black tracking-[0.22em] uppercase text-gray-400" id="detailType">Movimiento</p>
+            <h4 class="text-gray-900 dark:text-white font-black text-lg" id="detailTitle">Detalle</h4>
+          </div>
+          <button class="size-11 rounded-full bg-white/80 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 grid place-items-center active:scale-95 transition"
+                  data-detail-close="true" type="button">
+            <span class="material-symbols-rounded text-gray-600 dark:text-gray-300">close</span>
+          </button>
+        </div>
+
+        <div class="mt-4 rounded-2xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-gray-500 dark:text-gray-400">Monto</span>
+            <span class="text-base font-black text-gray-900 dark:text-white" id="detailAmount">$0.00</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-gray-500 dark:text-gray-400">Fecha</span>
+            <span class="text-xs font-black text-gray-900 dark:text-white" id="detailDate">-</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-gray-500 dark:text-gray-400">Referencia</span>
+            <span class="text-xs font-black text-gray-900 dark:text-white" id="detailRef">-</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-gray-500 dark:text-gray-400">Estado</span>
+            <span class="text-xs font-black text-gray-900 dark:text-white" id="detailStatus">-</span>
+          </div>
+          <div class="pt-2 border-t border-gray-100 dark:border-gray-800">
+            <p class="text-xs font-black text-gray-500 dark:text-gray-400">Nota</p>
+            <p class="text-sm font-black text-gray-900 dark:text-white" id="detailNote">-</p>
+          </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-2 gap-2">
+          <button class="h-12 rounded-2xl bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-gray-900 dark:text-white font-black shadow-soft active:scale-[0.99] transition"
+                  data-detail-close="true" type="button">
+            Cerrar
+          </button>
+          <button id="copyRefBtn"
+                  class="h-12 rounded-2xl bg-primary text-white font-black shadow-lg shadow-primary/25 active:scale-[0.99] transition"
+                  type="button">
+            Copiar ref
+          </button>
+        </div>
+
+        <p class="mt-3 text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed pb-1">
+          En producción esto abriría soporte, recibo o comprobante.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* Helpers */
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+    function formatMoney(value, sign="") {
+      const num = Number(value || 0);
+      return sign + "$" + num.toFixed(2);
+    }
+
+    /* Tabs */
+    const tabButtons = $$(".tab-btn");
+    const panels = {
+      income: $("#panel-income"),
+      withdraw: $("#panel-withdraw"),
+      advance: $("#panel-advance"),
+    };
+    let activeTab = "income";
+
+    function setTab(key) {
+      activeTab = key;
+      tabButtons.forEach(b => b.setAttribute("aria-selected", (b.dataset.tab === key).toString()));
+      Object.keys(panels).forEach(k => panels[k].toggleAttribute("hidden", k !== key));
+      runFilter();
+    }
+    tabButtons.forEach(b => b.addEventListener("click", () => setTab(b.dataset.tab)));
+
+    /* Range chips (solo visual) */
+    const rangeChips = $$(".rangeChip");
+    const activeRangeText = $("#activeRangeText");
+
+    const activeChipClasses = ["bg-primary","text-white","border-primary","shadow-lg","shadow-primary/25"];
+    const normalChipClasses = ["bg-gray-100","dark:bg-gray-800/70","border-gray-200","dark:border-gray-700","text-gray-700","dark:text-gray-200"];
+
+    function setRangeChip(selectedBtn) {
+      rangeChips.forEach(btn => {
+        btn.classList.remove(...activeChipClasses);
+        btn.classList.add(...normalChipClasses);
+      });
+      selectedBtn.classList.remove(...normalChipClasses);
+      selectedBtn.classList.add(...activeChipClasses);
+
+      const r = selectedBtn.dataset.range;
+      activeRangeText.textContent = "Rango: " + (r === "all" ? "Todo" : (r + " días"));
+    }
+    rangeChips.forEach(btn => btn.addEventListener("click", () => { setRangeChip(btn); runFilter(); }));
+    setRangeChip($(".rangeChip[data-range='30']"));
+
+    /* Bottom sheet filtros */
+    const filtersBtn = $("#filtersBtn");
+    const filtersSheet = $("#filtersSheet");
+    const applyFiltersBtn = $("#applyFiltersBtn");
+    const clearFiltersBtn = $("#clearFiltersBtn");
+
+    let filterStatus = "all";
+    let filterMin = "";
+    let filterMax = "";
+
+    function openFilters() { filtersSheet.setAttribute("data-open","true"); }
+    function closeFilters() { filtersSheet.setAttribute("data-open","false"); }
+
+    filtersBtn.addEventListener("click", openFilters);
+    $$("[data-sheet-close]", filtersSheet).forEach(el => el.addEventListener("click", closeFilters));
+
+    const statusChips = $$(".statusChip", filtersSheet);
+    function setStatusChip(selectedBtn) {
+      statusChips.forEach(btn => {
+        btn.setAttribute("aria-selected","false");
+        btn.classList.remove(...activeChipClasses);
+        btn.classList.add("bg-white","dark:bg-gray-900/40","border-gray-200/70","dark:border-gray-800","text-gray-700","dark:text-gray-200");
+      });
+      selectedBtn.setAttribute("aria-selected","true");
+      selectedBtn.classList.remove("bg-white","dark:bg-gray-900/40","border-gray-200/70","dark:border-gray-800","text-gray-700","dark:text-gray-200");
+      selectedBtn.classList.add(...activeChipClasses);
+      filterStatus = selectedBtn.dataset.status;
+    }
+    statusChips.forEach(btn => btn.addEventListener("click", () => setStatusChip(btn)));
+    setStatusChip($(".statusChip[data-status='all']", filtersSheet));
+
+    clearFiltersBtn.addEventListener("click", () => {
+      filterStatus = "all";
+      filterMin = "";
+      filterMax = "";
+      $("#minAmount").value = "";
+      $("#maxAmount").value = "";
+      setStatusChip($(".statusChip[data-status='all']", filtersSheet));
+      runFilter();
+      closeFilters();
+    });
+
+    applyFiltersBtn.addEventListener("click", () => {
+      filterMin = $("#minAmount").value.trim();
+      filterMax = $("#maxAmount").value.trim();
+      runFilter();
+      closeFilters();
+    });
+
+    /* Search */
+    const searchInput = $("#searchInput");
+    searchInput.addEventListener("input", () => runFilter());
+
+    /* Filtrado (demo visual) */
+    function getActiveListRoot() {
+      if (activeTab === "income") return $("#list-income");
+      if (activeTab === "withdraw") return $("#list-withdraw");
+      return $("#list-advance");
+    }
+
+    function runFilter() {
+      const query = (searchInput.value || "").toLowerCase().trim();
+      const listRoot = getActiveListRoot();
+      const items = $$(".tx-item", listRoot);
+
+      let shown = 0;
+
+      items.forEach(item => {
+        const amount = Number(item.dataset.amount || 0);
+        const ref = (item.dataset.ref || "").toLowerCase();
+        const note = (item.dataset.note || "").toLowerCase();
+        const status = item.dataset.status || "";
+
+        const matchesQuery = !query || ref.includes(query) || note.includes(query) || String(amount).includes(query);
+        const matchesStatus = (filterStatus === "all") || (status === filterStatus);
+
+        const minOk = filterMin === "" ? true : amount >= Number(filterMin);
+        const maxOk = filterMax === "" ? true : amount <= Number(filterMax);
+
+        const visible = matchesQuery && matchesStatus && minOk && maxOk;
+        item.classList.toggle("hidden", !visible);
+        if (visible) shown++;
+      });
+
+      $("#emptyState").classList.toggle("hidden", shown !== 0);
+    }
+
+    /* Detalle bottom sheet */
+    const detailSheet = $("#detailSheet");
+    const copyRefBtn = $("#copyRefBtn");
+
+    function openDetail(data) {
+      $("#detailType").textContent = data.typeLabel;
+      $("#detailTitle").textContent = data.title;
+      $("#detailAmount").textContent = data.amountText;
+      $("#detailDate").textContent = data.date;
+      $("#detailRef").textContent = data.ref;
+      $("#detailStatus").textContent = data.status;
+      $("#detailNote").textContent = data.note;
+      detailSheet.setAttribute("data-open","true");
+    }
+    function closeDetail() { detailSheet.setAttribute("data-open","false"); }
+
+    $$("[data-detail-close]", detailSheet).forEach(el => el.addEventListener("click", closeDetail));
+
+    $$(".tx-item").forEach(item => {
+      item.addEventListener("click", () => {
+        const type = item.dataset.type;
+        const title = item.querySelector("p.font-black")?.textContent?.trim() || "Movimiento";
+        const amount = Number(item.dataset.amount || 0);
+        const sign = (type === "withdraw") ? "-" : "+";
+        const amountText = formatMoney(amount, (type === "withdraw") ? "-" : "+");
+        const typeLabel = (type === "income") ? "Ingreso" : (type === "withdraw") ? "Retiro" : "Avance";
+
+        openDetail({
+          typeLabel,
+          title,
+          amountText,
+          date: item.dataset.date || "-",
+          ref: item.dataset.ref || "-",
+          status: item.dataset.status || "-",
+          note: item.dataset.note || "-",
+        });
+
+        copyRefBtn.onclick = async () => {
+          try {
+            await navigator.clipboard.writeText(item.dataset.ref || "");
+            copyRefBtn.textContent = "Copiado";
+            setTimeout(() => copyRefBtn.textContent = "Copiar ref", 1100);
+          } catch (e) {
+            alert("No se pudo copiar la referencia.");
+          }
+        };
+      });
+    });
+
+    /* Download (demo) */
+    $("#downloadBtn").addEventListener("click", () => {
+      alert("Descargar (mock): aquí generas un PDF o CSV del historial.");
+    });
+
+    /* Init */
+    setTab("income");
+    runFilter();
+  </script>
+</body>
+</html>

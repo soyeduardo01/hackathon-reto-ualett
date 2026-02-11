@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Ualett Splash Screen</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#193F71",
+              secondary: "#476DB5",
+              ink: "#191919",
+              background: "#FFFFFF",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        min-height: max(884px, 100dvh);
+      }
+
+      /* Textura clara y elegante */
+      .background-texture {
+        background-image:
+          radial-gradient(circle at 25% 30%, rgba(71, 109, 181, 0.12) 1px, transparent 1px),
+          radial-gradient(circle at 75% 20%, rgba(25, 63, 113, 0.10) 1px, transparent 1px),
+          radial-gradient(circle at 40% 75%, rgba(71, 109, 181, 0.08) 1px, transparent 1px),
+          linear-gradient(135deg, rgba(25, 63, 113, 0.05), rgba(71, 109, 181, 0.03));
+        background-size: 24px 24px, 28px 28px, 32px 32px, cover;
+      }
+    </style>
+  </head>
+
+  <body class="bg-background h-screen w-screen flex items-center justify-center relative overflow-hidden">
+    <!-- Fondo -->
+    <div class="absolute inset-0 background-texture pointer-events-none"></div>
+
+    <!-- Logo -->
+    <div class="relative z-10">
+      <div
+        class="w-80 h-80
+               flex items-center justify-center               
+               "
+      >
+        <a href="/onboarding_propuesta_de_valor_v2_1/code.html">
+          <img
+          src="/imagenes/logo.png"
+          alt="Ualett Logo"
+          class="w-40 h-40 object-contain select-none"
+          draggable="false"
+        />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  setTimeout(function() {
+    window.location.href = "/onboarding_propuesta_de_valor_v2_1/code.html";
+  }, 1500);
+</script>

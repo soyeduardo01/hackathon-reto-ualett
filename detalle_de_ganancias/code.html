@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Desglose del Viaje (70/30) - Ualett</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#3c69be",
+            "brand-dark": "#193F71",
+            "brand-blue": "#476DB5",
+            "background-light": "#f6f7f8",
+            "background-dark": "#14171e",
+          },
+          fontFamily: { display: ["Inter", "sans-serif"] },
+          borderRadius: {
+            DEFAULT: "0.75rem",
+            lg: "1rem",
+            xl: "1.25rem",
+            full: "9999px"
+          },
+          boxShadow: {
+            soft: "0 12px 30px rgba(16,24,40,.10)",
+            card: "0 18px 55px rgba(16,24,40,.12)",
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    body { font-family: "Inter", sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { min-height: max(884px, 100dvh); }
+    .material-symbols-outlined { font-variation-settings: "FILL" 1, "wght" 650, "GRAD" 0, "opsz" 24; }
+    .glass {
+      background: rgba(255,255,255,.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-[#101319] dark:text-gray-100">
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-50">
+    <div class="glass dark:bg-background-dark/80 border-b border-gray-200/70 dark:border-gray-800/70">
+      <div class="flex items-center p-4 justify-between max-w-md mx-auto">
+        <button onclick="window.location.href='/flujo-ualett-go/code.html'"
+                class="text-brand-dark dark:text-white flex size-11 items-center justify-center rounded-full bg-white/80 dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 shadow-sm active:scale-95 transition">
+          <span class="material-symbols-outlined">arrow_back_ios_new</span>
+        </button>
+
+        <div class="flex-1 text-center">
+          <p class="text-[11px] font-black tracking-[0.22em] uppercase text-gray-400">Ualett</p>
+          <h2 class="text-brand-dark dark:text-white text-lg font-extrabold leading-tight tracking-tight">
+            Desglose del Viaje
+          </h2>
+        </div>
+
+        <button class="text-brand-dark dark:text-white flex size-11 items-center justify-center rounded-full bg-white/80 dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 shadow-sm active:scale-95 transition">
+          <span class="material-symbols-outlined text-primary">notifications</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-md mx-auto pb-28">
+    <!-- Trip Info Card -->
+    <section class="p-4">
+      <div class="flex flex-col rounded-2xl bg-white dark:bg-gray-900 shadow-soft border border-gray-100 dark:border-gray-800 overflow-hidden">
+        <!-- MAPA (usa tu imagen) -->
+        <div class="w-full bg-center bg-no-repeat aspect-[16/7] bg-cover"
+             style='background-image: url("/imagenes/mapa-santo-domingo-ualett.png");'>
+        </div>
+
+        <div class="p-4">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <p class="text-brand-dark dark:text-white text-lg font-extrabold">Viaje Ualett Go</p>
+              <div class="mt-1 flex items-center gap-2 text-[#5b6c8b] dark:text-gray-400">
+                <span class="material-symbols-outlined text-sm">calendar_today</span>
+                <p class="text-sm font-medium">Hoy · 14:20</p>
+              </div>
+            </div>
+
+            <div class="text-right">
+              <p class="text-xs font-black uppercase tracking-widest text-gray-400">Ganancia estimada</p>
+              <p class="text-2xl font-black text-brand-dark dark:text-white">RD$420</p>
+            </div>
+          </div>
+
+          <div class="mt-4 grid gap-3">
+            <div class="flex items-start gap-3 rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 p-3">
+              <span class="material-symbols-outlined text-primary">radio_button_checked</span>
+              <div class="flex-1">
+                <p class="text-[11px] font-black uppercase tracking-[0.20em] text-gray-400">Recogida</p>
+                <p class="text-sm font-bold text-gray-900 dark:text-white">Av. 27 de Febrero, Bella Vista</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 p-3">
+              <span class="material-symbols-outlined text-gray-500">location_on</span>
+              <div class="flex-1">
+                <p class="text-[11px] font-black uppercase tracking-[0.20em] text-gray-400">Destino</p>
+                <p class="text-sm font-bold text-gray-900 dark:text-white">Zona Colonial, Calle El Conde</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 grid grid-cols-3 gap-2">
+            <div class="rounded-2xl bg-primary/5 border border-primary/10 p-3">
+              <p class="text-[11px] font-black text-gray-500 dark:text-gray-400">Distancia</p>
+              <p class="mt-1 text-sm font-black text-gray-900 dark:text-white">8.4 km</p>
+            </div>
+            <div class="rounded-2xl bg-primary/5 border border-primary/10 p-3">
+              <p class="text-[11px] font-black text-gray-500 dark:text-gray-400">Tiempo</p>
+              <p class="mt-1 text-sm font-black text-gray-900 dark:text-white">22 min</p>
+            </div>
+            <div class="rounded-2xl bg-primary/5 border border-primary/10 p-3">
+              <p class="text-[11px] font-black text-gray-500 dark:text-gray-400">Usuario</p>
+              <p class="mt-1 text-sm font-black text-gray-900 dark:text-white">4.8 ★</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Header: Revenue Split -->
+    <section class="px-4 pt-1">
+      <h3 class="text-brand-dark dark:text-white text-lg font-extrabold leading-tight">
+        División de Ganancias (70/30)
+      </h3>
+      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+        Transparencia total: aquí ves exactamente cómo se reparte el viaje.
+      </p>
+    </section>
+
+    <!-- Visual Split Chart -->
+    <section class="px-4 py-4">
+      <div class="bg-white dark:bg-gray-900 p-5 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-soft">
+        <div class="flex items-end justify-between">
+          <p class="text-[#5b6c8b] dark:text-gray-400 text-sm font-semibold">Total del viaje</p>
+          <p class="text-brand-dark dark:text-white text-3xl font-black">RD$420</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="mt-3 h-4 w-full flex rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800">
+          <div class="h-full bg-brand-dark" style="width: 70%;"></div>
+          <div class="h-full bg-brand-blue" style="width: 30%;"></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mt-4">
+          <div class="flex flex-col rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 p-4">
+            <div class="flex items-center gap-2">
+              <span class="size-3 rounded-full bg-brand-dark"></span>
+              <p class="text-brand-dark dark:text-gray-300 text-xs font-black uppercase tracking-wider">Para ti (70%)</p>
+            </div>
+            <p class="text-2xl font-black mt-2 text-gray-900 dark:text-white">RD$294</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              Tu ganancia directa por completar el viaje.
+            </p>
+          </div>
+
+          <div class="flex flex-col rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 p-4">
+            <div class="flex items-center gap-2">
+              <span class="size-3 rounded-full bg-brand-blue"></span>
+              <p class="text-brand-blue dark:text-primary text-xs font-black uppercase tracking-wider">Ualett (30%)</p>
+            </div>
+            <p class="text-2xl font-black mt-2 text-gray-900 dark:text-white">RD$126</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              Operación, soporte, seguridad y plataforma.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tips Action Panel -->
+    <section class="px-4 py-1">
+      <div class="flex flex-col gap-4 rounded-2xl border border-primary/30 bg-primary/5 dark:bg-primary/10 p-5 border-dashed">
+        <div class="flex items-start gap-3">
+          <div class="bg-yellow-400 text-white rounded-full p-1 flex items-center justify-center">
+            <span class="material-symbols-outlined" style="font-size: 20px; font-variation-settings: 'FILL' 1;">star</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <p class="text-brand-dark dark:text-white text-base font-extrabold leading-tight">Propinas: 100% para ti</p>
+            <p class="text-[#5b6c8b] dark:text-gray-400 text-sm leading-normal">
+              Este viaje incluye una propina y se te acredita completa.
+            </p>
+          </div>
+        </div>
+
+        <div class="w-full flex justify-between items-center border-t border-primary/10 pt-3">
+          <span class="text-brand-dark dark:text-white font-black text-xl">+ RD$40</span>
+          <button class="text-xs font-black leading-normal tracking-wide flex items-center gap-1 text-primary uppercase active:opacity-80">
+            Ver detalle
+            <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Detailed Breakdown List -->
+    <section class="px-4 py-4">
+      <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-soft overflow-hidden">
+        <div class="p-4 border-b border-gray-50 dark:border-gray-800 flex justify-between items-center">
+          <span class="text-gray-600 dark:text-gray-400 text-sm">Tarifa del viaje</span>
+          <span class="font-extrabold text-gray-900 dark:text-white">RD$420</span>
+        </div>
+
+        <div class="p-4 border-b border-gray-50 dark:border-gray-800 flex justify-between items-center">
+          <span class="text-gray-600 dark:text-gray-400 text-sm">Comisión Ualett (30%)</span>
+          <span class="font-extrabold text-red-500">- RD$126</span>
+        </div>
+
+        <div class="p-4 border-b border-gray-50 dark:border-gray-800 flex justify-between items-center">
+          <span class="text-gray-600 dark:text-gray-400 text-sm">Propina</span>
+          <span class="font-extrabold text-green-600">+ RD$40</span>
+        </div>
+
+        <div class="p-4 border-b border-gray-50 dark:border-gray-800 flex justify-between items-center">
+          <span class="text-gray-600 dark:text-gray-400 text-sm">Bonificación (demanda alta)</span>
+          <span class="font-extrabold text-green-600">+ RD$15</span>
+        </div>
+
+        <div class="p-5 bg-gray-50 dark:bg-gray-800/50 flex justify-between items-center">
+          <span class="text-brand-dark dark:text-white font-black text-base">Total recibido</span>
+          <span class="text-brand-dark dark:text-white font-extrabold text-2xl">RD$349</span>
+        </div>
+      </div>
+
+      <div class="mt-4 grid grid-cols-2 gap-3">
+        <button onclick="window.location.href='/actividad/code.html'"
+                class="h-12 rounded-2xl bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-gray-900 dark:text-white font-black shadow-soft active:scale-[0.99] transition flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0;">history</span>
+          Actividad
+        </button>
+
+        <button onclick="window.location.href='/dashboard_del_conductor_ualett/code.html'"
+                class="h-12 rounded-2xl text-white font-black shadow-lg shadow-primary/25 active:scale-[0.99] transition flex items-center justify-center gap-2"
+                style="background: linear-gradient(135deg, #193F71 0%, #476DB5 65%, #3c69be 100%);">
+          <span class="material-symbols-outlined">check_circle</span>
+          Listo
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-gray-950/80 backdrop-blur border-t border-gray-200/70 dark:border-gray-800 pb-6 pt-2">
+    <div class="max-w-md mx-auto flex justify-around items-center px-6">
+      <button onclick="window.location.href='/dashboard_del_conductor_ualett/code.html'" class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500 active:text-primary transition">
+        <span class="material-symbols-outlined">home</span>
+        <span class="text-[10px] font-medium">Inicio</span>
+      </button>
+
+      <button class="flex flex-col items-center gap-1 text-primary">
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">account_balance_wallet</span>
+        <span class="text-[10px] font-bold">Ganancias</span>
+      </button>
+
+      <button onclick="window.location.href='/actividad/code.html'" class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500 active:text-primary transition">
+        <span class="material-symbols-outlined">history</span>
+        <span class="text-[10px] font-medium">Actividad</span>
+      </button>
+
+      <button onclick="window.location.href='/perfil/code.html'" class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500 active:text-primary transition">
+        <span class="material-symbols-outlined">person</span>
+        <span class="text-[10px] font-medium">Perfil</span>
+      </button>
+    </div>
+  </nav>
+</body>
+</html>

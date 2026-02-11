@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Descuento Shell (Ualett)</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#3c69be",
+            brandDeep: "#193F71",
+            brandBlue: "#476DB5",
+            backgroundLight: "#f6f7f8",
+            backgroundDark: "#14171e",
+            shellYellow: "#F8D000",
+            shellRed: "#E31837",
+          },
+          fontFamily: { display: ["Inter", "sans-serif"] },
+          boxShadow: {
+            soft: "0 12px 30px rgba(16,24,40,.10)",
+            card: "0 18px 55px rgba(16,24,40,.12)",
+          },
+          borderRadius: { DEFAULT: "1rem", xl: "1.25rem", full: "9999px" },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body { font-family: "Inter", sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { min-height: max(884px, 100dvh); }
+    .material-symbols-rounded { font-variation-settings: "FILL" 1, "wght" 650, "GRAD" 0, "opsz" 24; }
+    .glass {
+      background: rgba(255,255,255,.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .ualett-texture {
+      background-image:
+        radial-gradient(circle at 20% 25%, rgba(71,109,181,.18) 1px, transparent 1px),
+        radial-gradient(circle at 80% 20%, rgba(25,63,113,.12) 1px, transparent 1px),
+        radial-gradient(circle at 35% 75%, rgba(71,109,181,.10) 1px, transparent 1px),
+        linear-gradient(135deg, rgba(25,63,113,.06), rgba(71,109,181,.03));
+      background-size: 26px 26px, 32px 32px, 36px 36px, cover;
+      background-position: 0 0, 12px 10px, 20px 6px, center;
+    }
+  </style>
+</head>
+
+<body class="bg-backgroundLight dark:bg-backgroundDark text-[#101319] dark:text-gray-100 font-display">
+  <div class="relative min-h-screen max-w-[430px] mx-auto bg-white dark:bg-backgroundDark shadow-2xl overflow-hidden">
+    <div class="absolute inset-0 -z-10 ualett-texture opacity-[0.45] dark:opacity-[0.12] pointer-events-none"></div>
+
+    <!-- TopAppBar -->
+    <header class="sticky top-0 z-20">
+      <div class="glass dark:bg-backgroundDark/80 border-b border-gray-200/70 dark:border-gray-800/70">
+        <div class="flex items-center p-4 justify-between">
+          <button onclick="window.location.href='/dashboard_del_conductor_ualett/code.html'"
+                  class="flex size-11 items-center justify-center rounded-full bg-white/80 dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 shadow-sm active:scale-95 transition">
+            <span class="material-symbols-rounded">arrow_back_ios_new</span>
+          </button>
+
+          <div class="flex-1 text-center">
+            <p class="text-[11px] font-black tracking-[0.22em] uppercase text-gray-400">Beneficios</p>
+            <h2 class="text-[#101319] dark:text-white text-lg font-extrabold leading-tight tracking-tight">
+              Descuento en Shell
+            </h2>
+          </div>
+
+          <button class="flex size-11 items-center justify-center rounded-full bg-white/80 dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 shadow-sm active:scale-95 transition">
+            <span class="material-symbols-rounded text-primary">notifications</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="pb-28">
+
+      <!-- Hero -->
+      <section class="p-4">
+        <div class="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-soft bg-white dark:bg-gray-900">
+          <div class="p-5 relative">
+            <div class="absolute inset-0 opacity-70 pointer-events-none"
+                 style="background:
+                   radial-gradient(520px 240px at 10% 20%, rgba(248,208,0,.22), transparent 62%),
+                   radial-gradient(520px 240px at 88% 12%, rgba(227,24,55,.16), transparent 62%),
+                   radial-gradient(600px 260px at 50% 85%, rgba(71,109,181,.14), transparent 60%);">
+            </div>
+
+            <div class="relative flex items-start justify-between gap-3">
+              <div class="flex-1">
+                <p class="text-xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                  Convenio B2B Ualett + Shell
+                </p>
+
+                <h1 class="mt-2 text-3xl font-black tracking-tight text-brandDeep dark:text-white">
+                  7% de descuento
+                </h1>
+
+                <p class="mt-2 text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                  Presenta este QR en estaciones Shell participantes para aplicar tu descuento como conductor Ualett.
+                </p>
+
+                <div class="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/15">
+                  <span class="material-symbols-rounded text-primary text-[18px]">local_gas_station</span>
+                  <span class="text-xs font-black text-primary">Combustible y lubricantes</span>
+                </div>
+              </div>
+
+              <div class="shrink-0">
+                <div class="size-14 rounded-2xl bg-shellYellow/20 border border-shellYellow/30 grid place-items-center">
+                  <span class="material-symbols-rounded text-[28px]" style="color:#E31837;">verified</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- QR CARD -->
+          <div class="border-t border-gray-100 dark:border-gray-800 p-5">
+            <div class="rounded-2xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-4">
+              <div class="flex items-center justify-between gap-3">
+                <p class="text-sm font-black text-gray-900 dark:text-white">Tu QR de descuento</p>
+                <span class="text-xs font-black text-green-600 dark:text-green-400">Activo</span>
+              </div>
+
+              <div class="mt-4 grid place-items-center">
+                <!-- Puedes reemplazar por una imagen real de QR si deseas -->
+                <!-- Ej: <img src="/imagenes/qr-shell-ualett.png" class="w-52 h-52" alt="QR Shell Ualett"> -->
+                <div class="w-56 h-56 rounded-2xl bg-white border border-gray-200/70 dark:border-gray-800 shadow-sm grid place-items-center">
+                  <!-- QR SVG simple (demo) -->
+                  <svg width="180" height="180" viewBox="0 0 180 180" aria-label="QR demo">
+                    <rect width="180" height="180" fill="#fff"/>
+                    <!-- Finder patterns -->
+                    <rect x="10" y="10" width="50" height="50" fill="#000"/>
+                    <rect x="18" y="18" width="34" height="34" fill="#fff"/>
+                    <rect x="24" y="24" width="22" height="22" fill="#000"/>
+
+                    <rect x="120" y="10" width="50" height="50" fill="#000"/>
+                    <rect x="128" y="18" width="34" height="34" fill="#fff"/>
+                    <rect x="134" y="24" width="22" height="22" fill="#000"/>
+
+                    <rect x="10" y="120" width="50" height="50" fill="#000"/>
+                    <rect x="18" y="128" width="34" height="34" fill="#fff"/>
+                    <rect x="24" y="134" width="22" height="22" fill="#000"/>
+
+                    <!-- Random modules (demo pattern) -->
+                    <rect x="74" y="18" width="8" height="8" fill="#000"/>
+                    <rect x="90" y="18" width="8" height="8" fill="#000"/>
+                    <rect x="74" y="34" width="8" height="8" fill="#000"/>
+                    <rect x="90" y="34" width="8" height="8" fill="#000"/>
+
+                    <rect x="70" y="70" width="8" height="8" fill="#000"/>
+                    <rect x="86" y="70" width="8" height="8" fill="#000"/>
+                    <rect x="102" y="70" width="8" height="8" fill="#000"/>
+                    <rect x="118" y="70" width="8" height="8" fill="#000"/>
+                    <rect x="70" y="86" width="8" height="8" fill="#000"/>
+                    <rect x="102" y="86" width="8" height="8" fill="#000"/>
+                    <rect x="118" y="86" width="8" height="8" fill="#000"/>
+
+                    <rect x="70" y="102" width="8" height="8" fill="#000"/>
+                    <rect x="86" y="102" width="8" height="8" fill="#000"/>
+                    <rect x="118" y="102" width="8" height="8" fill="#000"/>
+                    <rect x="134" y="102" width="8" height="8" fill="#000"/>
+
+                    <rect x="74" y="138" width="8" height="8" fill="#000"/>
+                    <rect x="90" y="138" width="8" height="8" fill="#000"/>
+                    <rect x="106" y="138" width="8" height="8" fill="#000"/>
+                    <rect x="122" y="138" width="8" height="8" fill="#000"/>
+                    <rect x="138" y="138" width="8" height="8" fill="#000"/>
+
+                    <rect x="74" y="154" width="8" height="8" fill="#000"/>
+                    <rect x="106" y="154" width="8" height="8" fill="#000"/>
+                    <rect x="122" y="154" width="8" height="8" fill="#000"/>
+                  </svg>
+                </div>
+
+                <p class="mt-3 text-[11px] text-gray-500 dark:text-gray-400 text-center leading-relaxed">
+                  Muestra este código al personal de la estación. El descuento aplica al momento del pago.
+                </p>
+              </div>
+
+              <div class="mt-4 grid grid-cols-2 gap-3">
+                <button id="saveBtn"
+                        class="h-12 rounded-2xl bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-gray-900 dark:text-white font-black shadow-soft flex items-center justify-center gap-2 active:scale-[0.99] transition">
+                  <span class="material-symbols-rounded text-primary">download</span>
+                  Guardar
+                </button>
+
+                <button id="shareBtn"
+                        class="h-12 rounded-2xl bg-primary text-white font-black shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-[0.99] transition">
+                  <span class="material-symbols-rounded">share</span>
+                  Compartir
+                </button>
+              </div>
+            </div>
+
+            <!-- Terms -->
+            <div class="mt-4 flex gap-3 rounded-2xl bg-primary/5 border border-primary/10 p-4">
+              <span class="material-symbols-rounded text-primary mt-0.5">info</span>
+              <div>
+                <p class="text-sm font-black text-gray-900 dark:text-white">Condiciones</p>
+                <ul class="mt-1 text-xs text-gray-600 dark:text-gray-400 leading-relaxed list-disc pl-4 space-y-1">
+                  <li>Descuento del 7% en estaciones Shell participantes.</li>
+                  <li>Aplica para conductores Ualett con QR activo.</li>
+                  <li>Puede requerir identificación del conductor.</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    const saveBtn = document.getElementById("saveBtn");
+    const shareBtn = document.getElementById("shareBtn");
+
+    saveBtn.addEventListener("click", () => {
+      alert("Demo: aquí guardarías el QR en el teléfono.");
+    });
+
+    shareBtn.addEventListener("click", async () => {
+      // Demo de share. Si el navegador no soporta, se cae a alert.
+      const payload = {
+        title: "QR de descuento Shell - Ualett",
+        text: "Presenta este QR y recibe 7% de descuento en Shell (conductores Ualett).",
+        url: window.location.href
+      };
+
+      if (navigator.share) {
+        try { await navigator.share(payload); }
+        catch (e) { /* cancelado */ }
+      } else {
+        alert("Este dispositivo no soporta compartir nativo. (Demo)");
+      }
+    });
+  </script>
+</body>
+</html>

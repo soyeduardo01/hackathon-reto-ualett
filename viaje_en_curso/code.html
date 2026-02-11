@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Viaje en curso (Ualett Go)</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght@400;600;700&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#476DB5",
+            brandDeep: "#193F71",
+          },
+          fontFamily: { display: ["Inter", "sans-serif"] },
+          boxShadow: {
+            soft: "0 4px 20px rgba(25,63,113,.08)",
+            card: "0 8px 32px rgba(25,63,113,.12)",
+            elevated: "0 12px 40px rgba(25,63,113,.15)",
+          },
+          borderRadius: { DEFAULT: "1rem", xl: "1.25rem", "2xl": "1.5rem", full: "9999px" },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body { 
+      font-family: "Inter", sans-serif; 
+      -webkit-tap-highlight-color: transparent;
+    }
+    body { min-height: max(884px, 100dvh); }
+    .material-symbols-rounded { 
+      font-variation-settings: "FILL" 1, "wght" 600, "GRAD" 0, "opsz" 24; 
+    }
+
+    /* Clean white glass effect */
+    .glass-light {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    /* Premium shadow for cards */
+    .card-shadow {
+      box-shadow: 0 8px 32px rgba(25, 63, 113, 0.12);
+    }
+
+    /* Smooth transitions */
+    * {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    /* Active state for buttons */
+    .btn-active:active {
+      transform: scale(0.98);
+    }
+
+    /* Gradient overlay for map */
+    .map-overlay {
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.05) 30%,
+        rgba(255, 255, 255, 0.05) 70%,
+        rgba(255, 255, 255, 0.35) 100%
+      );
+    }
+  </style>
+</head>
+
+<body class="bg-white font-display">
+  <div class="relative min-h-screen max-w-[430px] mx-auto overflow-hidden bg-gray-50">
+
+    <!-- BACKGROUND MAP -->
+    <img
+      src="/imagenes/viaje en curso.png"
+      alt="Mapa del viaje en curso"
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+
+    <!-- Light overlay for better contrast -->
+    <div class="absolute inset-0 map-overlay pointer-events-none"></div>
+
+    <!-- TOP HUD -->
+    <header class="relative z-20 pt-5 px-4">
+      <div class="glass-light border border-white/60 rounded-2xl p-5 card-shadow">
+        <div class="flex items-start justify-between gap-4">
+          <!-- Left: time + remaining -->
+          <div class="flex-1">
+            <p class="text-[10px] font-black tracking-[0.25em] uppercase text-[#193F71]/60">
+              Tiempo restante
+            </p>
+            <div class="mt-1.5 flex items-baseline gap-2">
+              <span class="text-5xl font-black tracking-tight text-[#193F71]">9</span>
+              <span class="text-xl font-black text-[#476DB5]">min</span>
+            </div>
+            <p class="mt-1.5 text-sm font-bold text-[#191919]/70">2.6 km al destino</p>
+          </div>
+
+          <!-- Right: ETA + sound -->
+          <div class="text-right">
+            <p class="text-[10px] font-black tracking-[0.25em] uppercase text-[#193F71]/60">
+              Llegada
+            </p>
+            <p class="mt-1.5 text-4xl font-black tracking-tight text-[#193F71]">11:32</p>
+            <button id="soundBtn"
+                    class="mt-3 inline-flex items-center justify-center size-11 rounded-full bg-white border-2 border-[#476DB5]/20 btn-active hover:border-[#476DB5]/40 card-shadow">
+              <span id="soundIcon" class="material-symbols-rounded text-[#476DB5]">volume_up</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- BOTTOM SHEET -->
+    <div class="absolute left-0 right-0 bottom-0 z-30 px-4 pb-safe">
+      <div class="rounded-t-[2rem] glass-light border-t border-x border-white/60 card-shadow overflow-hidden">
+        
+        <!-- Turn instruction card -->
+        <div class="p-5">
+          <div class="flex items-center gap-4 bg-gradient-to-br from-[#193F71] to-[#476DB5] rounded-2xl p-4 shadow-lg">
+            <div class="size-14 rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 grid place-items-center flex-shrink-0">
+              <span class="material-symbols-rounded text-white text-[32px]">turn_left</span>
+            </div>
+
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-bold text-white/90">En 100 m</p>
+              <p class="text-2xl font-black tracking-tight text-white mt-0.5">
+                Gire a la izquierda
+              </p>
+            </div>
+
+            <div class="size-12 rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 grid place-items-center flex-shrink-0">
+              <span class="material-symbols-rounded text-white text-[28px]">near_me</span>
+            </div>
+          </div>
+
+          <!-- Metrics row -->
+          <div class="mt-5 grid grid-cols-3 gap-3">
+            <div class="rounded-xl bg-white border border-[#476DB5]/15 p-3.5 card-shadow">
+              <p class="text-[10px] font-black uppercase tracking-[0.2em] text-[#193F71]/60">Tiempo</p>
+              <p class="mt-1.5 text-xl font-black text-[#193F71]">9 min</p>
+            </div>
+
+            <div class="rounded-xl bg-white border border-[#476DB5]/15 p-3.5 card-shadow">
+              <p class="text-[10px] font-black uppercase tracking-[0.2em] text-[#193F71]/60">Distancia</p>
+              <p class="mt-1.5 text-xl font-black text-[#193F71]">2.6 km</p>
+            </div>
+
+            <div class="rounded-xl bg-white border border-[#476DB5]/15 p-3.5 card-shadow">
+              <p class="text-[10px] font-black uppercase tracking-[0.2em] text-[#193F71]/60">Pasajero</p>
+              <p class="mt-1.5 text-sm font-black text-[#193F71] leading-tight">Carlos M.</p>
+              <div class="mt-1 flex items-center gap-1">
+                <span class="material-symbols-rounded text-[16px]" style="color:#FBBF24">star</span>
+                <span class="text-sm font-black text-[#476DB5]">4.8</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action buttons -->
+          <div class="mt-5 grid grid-cols-2 gap-3">
+            <button id="detailBtn"
+                    class="h-14 rounded-xl bg-white border-2 border-[#476DB5]/30 text-[#193F71] font-black btn-active card-shadow flex items-center justify-center gap-2 hover:border-[#476DB5]/50">
+              <span class="material-symbols-rounded">menu</span>
+              Detalle
+            </button>
+
+            <button onclick="window.location.href='/detalle_de_ganancias/code.html'" id="finishBtn"
+                    class="h-14 mb-5 rounded-xl text-white bg-primary font-black btn-active shadow-lg flex items-center justify-center gap-2"
+                    >
+              <span class="material-symbols-rounded">flag</span>
+              Finalizar viaje
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+ 
+</body>
+</html>

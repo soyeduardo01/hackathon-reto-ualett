@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Billetera (Ualett)</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#466cb4",
+            "brand-dark": "#193F71",
+            "text-main": "#191919",
+            "background-light": "#f6f7f8",
+            "background-dark": "#15181d",
+            gold: "#C8A44A",
+          },
+          fontFamily: { display: ["Inter", "sans-serif"] },
+          borderRadius: { DEFAULT: "1rem", xl: "1.25rem", full: "9999px" },
+          boxShadow: {
+            soft: "0 12px 30px rgba(16,24,40,.10)",
+            card: "0 18px 55px rgba(16,24,40,.12)",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body { font-family: "Inter", sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { min-height: max(884px, 100dvh); }
+    .material-symbols-rounded { font-variation-settings: "FILL" 1, "wght" 650, "GRAD" 0, "opsz" 24; }
+
+    .ualett-bg {
+      background:
+        radial-gradient(900px 540px at 18% 12%, rgba(70,108,180,.22), transparent 56%),
+        radial-gradient(700px 420px at 88% 18%, rgba(25,63,113,.18), transparent 55%),
+        linear-gradient(180deg, #f6f7f8 0%, #ffffff 100%);
+    }
+    .glass {
+      background: rgba(255,255,255,.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    /* Acordeón */
+    .acc-panel {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 260ms ease, opacity 220ms ease;
+    }
+    .acc-item[data-open="true"] .acc-panel {
+      max-height: 560px;
+      opacity: 1;
+    }
+    .acc-item .acc-chevron { transition: transform 220ms ease; }
+    .acc-item[data-open="true"] .acc-chevron { transform: rotate(180deg); }
+
+    /* Tabs */
+    .tab-btn[aria-selected="true"] {
+      background: rgba(70,108,180,.12);
+      border-color: rgba(70,108,180,.22);
+      color: #193F71;
+    }
+    .dark .tab-btn[aria-selected="true"] {
+      background: rgba(70,108,180,.20);
+      border-color: rgba(70,108,180,.28);
+      color: #dbeafe;
+    }
+    .tab-panel[hidden] { display: none !important; }
+
+    /* Bottom sheet */
+    .sheet {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease;
+    }
+    .sheet[data-open="true"] {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .sheet-card {
+      transform: translateY(18px);
+      transition: transform 220ms ease;
+    }
+    .sheet[data-open="true"] .sheet-card {
+      transform: translateY(0);
+    }
+
+    /* Tarjetas de crédito */
+    .cards-container {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 0 16px;
+    }
+    .cards-container::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .credit-card {
+      min-width: 340px;
+      height: 210px;
+      border-radius: 20px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      scroll-snap-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      transition: transform 0.2s ease;
+    }
+    
+    .credit-card:active {
+      transform: scale(0.98);
+    }
+    
+    .card-gradient-visa {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+    }
+    
+    .card-gradient-mastercard {
+      background: linear-gradient(135deg, #7c2d12 0%, #ea580c 50%, #fb923c 100%);
+    }
+    
+    .card-gradient-amex {
+      background: linear-gradient(135deg, #065f46 0%, #059669 50%, #34d399 100%);
+    }
+    
+    .card-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.1;
+      background-image: 
+        radial-gradient(circle at 20% 30%, white 2px, transparent 2px),
+        radial-gradient(circle at 80% 70%, white 2px, transparent 2px),
+        radial-gradient(circle at 40% 80%, white 1px, transparent 1px);
+      background-size: 100px 100px, 150px 150px, 80px 80px;
+    }
+    
+    .card-chip {
+      width: 50px;
+      height: 38px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card-chip::before {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border-radius: 6px;
+      background: 
+        repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 2px, transparent 2px, transparent 4px),
+        repeating-linear-gradient(90deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 2px, transparent 2px, transparent 4px);
+    }
+    
+    .card-number {
+      font-family: 'Courier New', monospace;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .card-logo {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      opacity: 0.95;
+    }
+
+    .card-dots {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    .card-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      transition: all 0.3s ease;
+    }
+
+    .card-dot.active {
+      background: #466cb4;
+      width: 24px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-text-main font-display">
+  <div class="relative flex min-h-screen w-full flex-col max-w-[430px] mx-auto bg-white dark:bg-background-dark shadow-2xl overflow-hidden">
+    <div class="absolute inset-0 -z-10 ualett-bg opacity-100 dark:opacity-[0.12] pointer-events-none"></div>
+
+    <!-- TopAppBar -->
+    <header class="sticky top-0 z-20">
+      <div class="glass dark:bg-background-dark/80 border-b border-gray-100 dark:border-gray-800">
+        <div class="flex items-center p-4 justify-between">
+          <button onclick="window.location.href='/dashboard_del_conductor_ualett/code.html'" class="text-text-main dark:text-white flex size-11 items-center justify-center rounded-full bg-white/80 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 shadow-sm active:scale-95 transition">
+            <span class="material-symbols-rounded">arrow_back_ios_new</span>
+          </button>
+
+          <div class="flex-1 text-center">
+            <p class="text-[11px] font-black tracking-[0.22em] uppercase text-gray-400">Ualett</p>
+            <h2 class="text-text-main dark:text-white text-lg font-extrabold leading-tight tracking-tight">Billetera</h2>
+          </div>
+
+          <button class="text-text-main dark:text-white flex size-11 items-center justify-center rounded-full bg-white/80 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 shadow-sm active:scale-95 transition">
+            <span class="material-symbols-rounded text-primary">notifications</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 overflow-y-auto pb-36">
+
+      <!-- Balance Hero (MISMO DISEÑO) -->
+      <section class="p-4">
+        <div class="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-soft">
+          <div class="relative p-5">
+            <div class="absolute inset-0 opacity-70 pointer-events-none"
+                 style="background: radial-gradient(520px 220px at 12% 25%, rgba(70,108,180,.22), transparent 60%),
+                                  radial-gradient(520px 220px at 88% 10%, rgba(25,63,113,.18), transparent 60%);"></div>
+
+            <div class="relative flex items-start justify-between gap-4">
+              <div class="flex-1">
+                <p class="text-xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                  Disponible para retirar
+                </p>
+
+                <p class="mt-2 text-4xl font-black tracking-tighter text-brand-dark dark:text-white">
+                  $320.00
+                </p>
+
+                <div class="mt-3 flex flex-wrap items-center gap-2">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200/60 dark:border-green-800/40">
+                    <span class="material-symbols-rounded text-green-600 text-[18px]">verified</span>
+                    <span class="text-xs font-extrabold text-green-700 dark:text-green-300">Saldo confirmado</span>
+                  </span>
+                </div>
+
+                <p class="mt-3 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                  Administra tus retiros y usa Avances de Efectivo para mantener tu flujo cuando lo necesites.
+                </p>
+              </div>
+
+              <div class="shrink-0">
+                <div class="size-14 rounded-2xl bg-primary/10 border border-primary/15 grid place-items-center">
+                  <span class="material-symbols-rounded text-primary text-[28px]">account_balance_wallet</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="relative mt-5 grid grid-cols-3 gap-2">
+              <div class="rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-3">
+                <p class="text-[11px] font-black text-gray-500 dark:text-gray-400">Ingresos hoy</p>
+                <p class="mt-1 text-sm font-black text-gray-900 dark:text-white">$142.50</p>
+              </div>
+              <div class="rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-3">
+                <p class="text-[11px] font-black text-gray-500 dark:text-gray-400">En proceso</p>
+                <p class="mt-1 text-sm font-black text-gray-900 dark:text-white">$58.00</p>
+              </div>
+              <div class="rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-3">
+                <p class="text-[11px] font-black text-gray-500 dark:text-gray-400">Retiros (mes)</p>
+                <p class="mt-1 text-sm font-black text-gray-900 dark:text-white">$620</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t border-gray-100 dark:border-gray-800 p-4">
+            <div class="grid grid-cols-2 gap-3">
+              <button class="w-full h-12 rounded-2xl bg-primary text-white font-black shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-[0.99] transition">
+                <span class="material-symbols-rounded">north_east</span>
+                Retirar
+              </button>
+
+              <button class="w-full h-12 rounded-2xl bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-gray-900 dark:text-white font-black shadow-soft flex items-center justify-center gap-2 active:scale-[0.99] transition">
+                <span class="material-symbols-rounded text-primary">swap_horiz</span>
+                Transferir
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- NUEVA SECCIÓN: Tarjetas de Crédito -->
+      <section class="pt-2 pb-4">
+        <div class="px-4 mb-3 flex items-center justify-between">
+          <div>
+            <p class="text-[11px] font-black tracking-[0.22em] uppercase text-gray-400">Tus Métodos de Pago</p>
+            <h3 class="text-gray-900 dark:text-white font-black text-lg tracking-tight">Tarjetas</h3>
+          </div>
+          <button class="size-10 rounded-xl bg-white dark:bg-gray-900 border border-gray-200/70 dark:border-gray-800 grid place-items-center active:scale-95 transition shadow-sm">
+            <span class="material-symbols-rounded text-primary !text-[20px]">add</span>
+          </button>
+        </div>
+
+        <div class="cards-container" id="cardsContainer">
+          <!-- Tarjeta 1: Visa -->
+          <div class="credit-card card-gradient-visa" data-card="0">
+            <div class="card-pattern"></div>
+            <div class="relative h-full flex flex-col justify-between text-white">
+              <div class="flex items-start justify-between">
+                <div class="card-chip"></div>
+                <div class="card-logo">VISA</div>
+              </div>
+              
+              <div>
+                <div class="card-number mb-4">
+                  •••• •••• •••• 4529
+                </div>
+                
+                <div class="flex items-end justify-between">
+                  <div>
+                    <p class="text-[10px] uppercase tracking-wider opacity-80 mb-1">Titular</p>
+                    <p class="text-sm font-bold tracking-wide">Carlos Méndez</p>
+                  </div>
+                  
+                  <div class="text-right">
+                    <p class="text-[10px] uppercase tracking-wider opacity-80 mb-1">Vence</p>
+                    <p class="text-sm font-bold tracking-wider">08/27</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta 2: Mastercard -->
+          <div class="credit-card card-gradient-mastercard" data-card="1">
+            <div class="card-pattern"></div>
+            <div class="relative h-full flex flex-col justify-between text-white">
+              <div class="flex items-start justify-between">
+                <div class="card-chip"></div>
+                <div class="card-logo flex items-center gap-0.5">
+                  <div class="w-6 h-6 rounded-full bg-red-500 opacity-90"></div>
+                  <div class="w-6 h-6 rounded-full bg-yellow-500 opacity-90 -ml-3"></div>
+                </div>
+              </div>
+              
+              <div>
+                <div class="card-number mb-4">
+                  •••• •••• •••• 8312
+                </div>
+                
+                <div class="flex items-end justify-between">
+                  <div>
+                    <p class="text-[10px] uppercase tracking-wider opacity-80 mb-1">Titular</p>
+                    <p class="text-sm font-bold tracking-wide">Carlos Méndez</p>
+                  </div>
+                  
+                  <div class="text-right">
+                    <p class="text-[10px] uppercase tracking-wider opacity-80 mb-1">Vence</p>
+                    <p class="text-sm font-bold tracking-wider">12/26</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta 3: American Express -->
+          <div class="credit-card card-gradient-amex" data-card="2">
+            <div class="card-pattern"></div>
+            <div class="relative h-full flex flex-col justify-between text-white">
+              <div class="flex items-start justify-between">
+                <div class="card-chip"></div>
+                <div class="card-logo font-black" style="font-size: 11px; letter-spacing: 0.5px;">
+                  AMERICAN<br/>EXPRESS
+                </div>
+              </div>
+              
+              <div>
+                <div class="card-number mb-4" style="font-size: 18px;">
+                  •••• •••••• •5009
+                </div>
+                
+                <div class="flex items-end justify-between">
+                  <div>
+                    <p class="text-[10px] uppercase tracking-wider opacity-80 mb-1">Titular</p>
+                    <p class="text-sm font-bold tracking-wide">Carlos Méndez</p>
+                  </div>
+                  
+                  <div class="text-right">
+                    <p class="text-[10px] uppercase tracking-wider opacity-80 mb-1">Vence</p>
+                    <p class="text-sm font-bold tracking-wider">03/28</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Indicadores de tarjetas -->
+        <div class="card-dots" id="cardDots">
+          <div class="card-dot active"></div>
+          <div class="card-dot"></div>
+          <div class="card-dot"></div>
+        </div>
+      </section>
+
+      <!-- Liquidez (MEJORADA con Tabs) -->
+      <section class="px-4 -mt-1">
+        <div class="rounded-2xl bg-white/85 dark:bg-gray-900/45 border border-gray-100 dark:border-gray-800 shadow-soft overflow-hidden">
+          <div class="p-4">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-[11px] font-black tracking-[0.22em] uppercase text-gray-400">Ualett</p>
+                <h3 class="text-gray-900 dark:text-white font-black text-lg tracking-tight">Liquidez</h3>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                  Cambia de pestaña para ver lo ganado (verificado), tu colchón o la liquidez flexible.
+                </p>
+              </div>
+              <div class="size-11 rounded-2xl bg-primary/10 border border-primary/15 grid place-items-center">
+                <span class="material-symbols-rounded text-primary">savings</span>
+              </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="mt-4">
+              <div class="grid grid-cols-3 gap-2 p-2 rounded-2xl bg-white/70 dark:bg-black/20 border border-gray-100 dark:border-gray-800">
+                <button class="tab-btn h-10 rounded-xl border border-gray-200/70 dark:border-gray-800 text-[12px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.99] transition"
+                        id="tab-earned" data-tab="earned" aria-selected="true" type="button">
+                  Vengado
+                </button>
+                <button class="tab-btn h-10 rounded-xl border border-gray-200/70 dark:border-gray-800 text-[12px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.99] transition"
+                        id="tab-buffer" data-tab="buffer" aria-selected="false" type="button">
+                  Buffer
+                </button>
+                <button class="tab-btn h-10 rounded-xl border border-gray-200/70 dark:border-gray-800 text-[12px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.99] transition"
+                        id="tab-flex" data-tab="flex" aria-selected="false" type="button">
+                  Flex
+                </button>
+              </div>
+
+              <!-- Panel: Vengado -->
+              <div class="tab-panel mt-4" id="panel-earned">
+                <div class="rounded-2xl bg-white dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800 overflow-hidden">
+                  <div class="p-4">
+                    <div class="flex items-start gap-3">
+                      <div class="size-12 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200/60 dark:border-emerald-800/50 grid place-items-center">
+                        <span class="material-symbols-rounded text-emerald-600 dark:text-emerald-300">verified</span>
+                      </div>
+                      <div class="flex-1">
+                        <div class="flex items-center justify-between gap-2">
+                          <p class="font-black text-gray-900 dark:text-white">Vengado (verificado)</p>
+                          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200/60 dark:border-emerald-800/50">
+                            <span class="size-2 rounded-full bg-emerald-500"></span>
+                            <span class="text-[11px] font-black text-emerald-700 dark:text-emerald-300">Confirmado</span>
+                          </span>
+                        </div>
+
+                        <p class="mt-2 text-3xl font-black tracking-tighter text-gray-900 dark:text-white">$320.00</p>
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                          Ganancias por viajes y entregas ya confirmadas. Los avances salen de aquí.
+                        </p>
+
+                        <div class="mt-4 grid gap-2">
+                          <button onclick="window.location.href='/avances_de_efectivo_ualett/code02.html'"
+                                  class="h-11 rounded-2xl bg-primary text-white font-black shadow-lg shadow-primary/25 flex items-center justify-center gap-2 active:scale-[0.99] transition">
+                            <span class="material-symbols-rounded">request_quote</span>
+                            Pedir avance
+                          </button>
+                          <button class="h-11 rounded-2xl bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-gray-900 dark:text-white font-black shadow-soft flex items-center justify-center gap-2 active:scale-[0.99] transition">
+                            <span class="material-symbols-rounded text-primary">receipt_long</span>
+                            Ver detalle
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Panel: Buffer -->
+              <div class="tab-panel mt-4" id="panel-buffer" hidden>
+                <div class="rounded-2xl bg-white dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800 overflow-hidden">
+                  <div class="p-4">
+                    <div class="flex items-start gap-3">
+                      <div class="size-12 rounded-2xl bg-blue-50 dark:bg-blue-900/25 border border-blue-200/60 dark:border-blue-800/50 grid place-items-center">
+                        <span class="material-symbols-rounded text-primary">shield</span>
+                      </div>
+                      <div class="flex-1">
+                        <div class="flex items-center justify-between gap-2">
+                          <p class="font-black text-gray-900 dark:text-white">Stability Buffer (colchón)</p>
+                          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/10">
+                            <span class="size-2 rounded-full bg-primary"></span>
+                            <span class="text-[11px] font-black text-primary">Auto</span>
+                          </span>
+                        </div>
+
+                        <p class="mt-2 text-3xl font-black tracking-tighter text-gray-900 dark:text-white" id="bufferAmount">$6.00</p>
+
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                          Ahorro automático para que una avería no te rompa la semana. Se construye en días buenos.
+                        </p>
+
+                        <div class="mt-3 flex items-center gap-2 rounded-xl bg-primary/5 border border-primary/10 p-3">
+                          <span class="material-symbols-rounded text-primary text-[18px]">info</span>
+                          <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 leading-relaxed">
+                            Activo: <span class="font-black" id="bufferPctText">5%</span> por pedido (ejemplo: $120 gana, $6 se guardan).
+                          </p>
+                        </div>
+
+                        <div class="mt-4 flex flex-wrap gap-2 items-center">
+                          <button class="bufferChip px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 text-[11px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.98] transition"
+                                  data-pct="3" type="button">3%</button>
+                          <button class="bufferChip px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 text-[11px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.98] transition"
+                                  data-pct="5" type="button">5%</button>
+                          <button class="bufferChip px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 text-[11px] font-black text-gray-700 dark:text-gray-200 active:scale-[0.98] transition"
+                                  data-pct="7" type="button">7%</button>
+
+                          <span class="ml-auto text-[11px] font-black text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                            <span class="material-symbols-rounded text-primary !text-[16px]">savings</span>
+                            Crece automático
+                          </span>
+                        </div>
+
+                        <div class="mt-4 grid gap-2">
+                          <button id="configBufferBtn"
+                                  class="h-11 rounded-2xl bg-primary text-white font-black shadow-lg shadow-primary/25 flex items-center justify-center gap-2 active:scale-[0.99] transition"
+                                  type="button">
+                            <span class="material-symbols-rounded">tune</span>
+                            Configurar
+                          </button>
+                          <button id="withdrawBufferBtn"
+                                  class="h-11 rounded-2xl bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-gray-900 dark:text-white font-black shadow-soft flex items-center justify-center gap-2 active:scale-[0.99] transition"
+                                  type="button">
+                            <span class="material-symbols-rounded text-primary">south_west</span>
+                            Retirar
+                          </button>
+                        </div>
+
+                        <!-- feedback visual -->
+                        <div id="bufferToast" class="mt-3 hidden">
+                          <div class="rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200/60 dark:border-emerald-800/50 p-3 flex items-start gap-2">
+                            <span class="material-symbols-rounded text-emerald-600 dark:text-emerald-300">check_circle</span>
+                            <p class="text-xs font-black text-emerald-700 dark:text-emerald-200">
+                              Configuración guardada.
+                            </p>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Panel: Flex -->
+              <div class="tab-panel mt-4" id="panel-flex" hidden>
+                <div class="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900/50">
+                  <div class="p-4">
+                    <div class="flex items-start gap-3">
+                      <div class="size-12 rounded-2xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200/60 dark:border-amber-800/50 grid place-items-center">
+                        <span class="material-symbols-rounded text-amber-600 dark:text-amber-300">bolt</span>
+                      </div>
+                      <div class="flex-1">
+                        <div class="flex items-center justify-between gap-2">
+                          <p class="font-black text-gray-900 dark:text-white">Flex Advance</p>
+                          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100/70 dark:bg-amber-900/20 border border-amber-200/60 dark:border-amber-800/40">
+                            <span class="size-2 rounded-full bg-amber-500"></span>
+                            <span class="text-[11px] font-black text-amber-700 dark:text-amber-300">Disponible</span>
+                          </span>
+                        </div>
+
+                        <p class="mt-2 text-3xl font-black tracking-tighter text-gray-900 dark:text-white">
+                          <span id="flexAmount">$150.00</span>
+                        </p>
+
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                          Monto basado en verificación más comportamiento. Ualett lo habilita porque confía en tu patrón.
+                        </p>
+
+                        <div class="mt-3 grid gap-2">
+                          <button id="takeFlexBtn"
+                                  class="h-11 rounded-2xl bg-primary text-white font-black shadow-lg shadow-primary/25 flex items-center justify-center gap-2 active:scale-[0.99] transition"
+                                  type="button">
+                            <span class="material-symbols-rounded">north_east</span>
+                            Tomar
+                          </button>
+                          <button id="howFlexBtn"
+                                  class="h-11 rounded-2xl bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-gray-900 dark:text-white font-black shadow-soft flex items-center justify-center gap-2 active:scale-[0.99] transition"
+                                  type="button">
+                            <span class="material-symbols-rounded text-primary">info</span>
+                            Cálculo
+                          </button>
+                        </div>
+
+                        <!-- estado visual cuando se toma -->
+                        <div id="flexTakenBox" class="mt-3 hidden">
+                          <div class="rounded-xl bg-primary/5 border border-primary/10 p-3 flex items-start gap-2">
+                            <span class="material-symbols-rounded text-primary">check_circle</span>
+                            <div class="flex-1">
+                              <p class="text-xs font-black text-gray-900 dark:text-white">Flex tomado</p>
+                              <p class="text-[11px] text-gray-600 dark:text-gray-400 mt-0.5">
+                                Se reflejará en tu balance. (mock visual)
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Avances de Efectivo (dejas tu bloque original) -->
+      <section class="px-4 pt-6">
+        <div class="rounded-2xl bg-white dark:bg-gray-900 shadow-soft border border-gray-100 dark:border-gray-800 overflow-hidden">
+          <div class="p-4">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">Avances de Efectivo</p>
+                <h3 class="mt-1 text-lg font-black tracking-tight text-gray-900 dark:text-white">
+                  Tu flujo, sin esperar el cierre
+                </h3>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                  Basado en tu actividad y promedio de ganancias. Elige diario, semanal, mensual o personalizado.
+                </p>
+              </div>
+
+              <div class="size-11 rounded-2xl bg-primary/10 border border-primary/15 grid place-items-center">
+                <span class="material-symbols-rounded text-primary">bolt</span>
+              </div>
+            </div>
+
+            <div class="mt-4 grid grid-cols-2 gap-2">
+              <div class="rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-3">
+                <p class="text-[11px] font-black text-gray-500 dark:text-gray-400">Disponible hoy</p>
+                <p class="mt-1 text-base font-black text-gray-900 dark:text-white">$350.00</p>
+              </div>
+              <div class="rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-3">
+                <p class="text-[11px] font-black text-gray-500 dark:text-gray-400">Recomendado</p>
+                <p class="mt-1 text-base font-black text-gray-900 dark:text-white">$480.00</p>
+              </div>
+            </div>
+
+            <div class="mt-3 flex items-center gap-2 rounded-xl bg-primary/5 border border-primary/10 p-3">
+              <span class="material-symbols-rounded text-primary text-[18px]">tips_and_updates</span>
+              <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 leading-relaxed">
+                Si esta semana viene floja, usa "Mensual" o "Personalizado" para distribuir la devolución.
+              </p>
+            </div>
+          </div>
+
+          <div class="border-t border-gray-100 dark:border-gray-800 p-4">
+            <div class="grid gap-3">
+              <button onclick="window.location.href='/avances_de_efectivo_ualett/code02.html'" class="w-full h-12 rounded-2xl bg-primary text-white font-black shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-[0.99] transition">
+                <span class="material-symbols-rounded">request_quote</span>
+                Solicitar avance
+              </button>
+
+              <button class="w-full h-12 rounded-2xl bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-gray-900 dark:text-white font-black shadow-soft flex items-center justify-center gap-2 active:scale-[0.99] transition">
+                <span class="material-symbols-rounded text-primary">receipt_long</span>
+                Ver detalle
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACCORDION -->
+      <section class="px-4 pt-6">
+        <h3 class="text-gray-900 dark:text-white font-black text-lg tracking-tight mb-3">Accesos rápidos</h3>
+
+        <div class="grid gap-3">
+          <div class="acc-item rounded-2xl bg-white dark:bg-gray-900 shadow-soft border border-gray-100 dark:border-gray-800 overflow-hidden" data-acc="withdraw" data-open="false">
+            <button type="button" class="w-full text-left p-4 flex items-center gap-4 active:scale-[0.99] transition" data-acc-btn="withdraw">
+              <div class="size-12 rounded-2xl bg-blue-50 dark:bg-blue-900/25 border border-blue-200/60 dark:border-blue-800/50 grid place-items-center">
+                <span class="material-symbols-rounded text-primary">account_balance</span>
+              </div>
+              <div class="flex-1">
+                <p class="font-black text-gray-900 dark:text-white leading-tight">Método de retiro</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Selecciona dónde recibir tu dinero</p>
+              </div>
+              <span class="material-symbols-rounded text-gray-400 acc-chevron">expand_more</span>
+            </button>
+
+            <div class="acc-panel border-t border-gray-100 dark:border-gray-800">
+              <div class="p-4 space-y-3">
+                <p class="text-[11px] font-black uppercase tracking-[0.22em] text-gray-400">Opciones</p>
+
+                <label class="flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 cursor-pointer">
+                  <input type="radio" name="withdraw_method" class="accent-primary" checked>
+                  <div class="size-10 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200/70 dark:border-gray-800 grid place-items-center">
+                    <span class="material-symbols-rounded text-primary">account_balance</span>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-sm font-black text-gray-900 dark:text-white">Banco</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Depósito a cuenta registrada (1 a 2 días)</p>
+                  </div>
+                  <span class="text-xs font-black text-gray-600 dark:text-gray-300">Tarifa $1.50</span>
+                </label>
+
+                <label class="flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 cursor-pointer">
+                  <input type="radio" name="withdraw_method" class="accent-primary">
+                  <div class="size-10 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200/70 dark:border-gray-800 grid place-items-center">
+                    <span class="material-symbols-rounded text-primary">credit_card</span>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-sm font-black text-gray-900 dark:text-white">Cuentas Bancarias</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Transferencia inmediata a su cuenta de banco</p>
+                  </div>
+                  <span class="text-xs font-black text-gray-600 dark:text-gray-300">Tarifa $2.25</span>
+                </label>
+
+                <button class="w-full h-12 rounded-2xl bg-primary text-white font-black shadow-lg shadow-primary/25 flex items-center justify-center gap-2 active:scale-[0.99] transition">
+                  <span class="material-symbols-rounded">check_circle</span>
+                  Guardar método
+                </button>
+
+                <p class="text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed">
+                  Las tarifas pueden variar según disponibilidad. Te lo mostramos antes de confirmar.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="window.location.href='/historial/code.html'" class="group w-full text-left bg-white dark:bg-gray-900 shadow-soft border border-gray-100 dark:border-gray-800 rounded-2xl p-4 flex items-center gap-4 active:scale-[0.99] transition">
+            <div class="size-12 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200/60 dark:border-emerald-800/50 grid place-items-center">
+              <span class="material-symbols-rounded text-emerald-600 dark:text-emerald-300">schedule</span>
+            </div>
+            <div class="flex-1">
+              <p class="font-black text-gray-900 dark:text-white leading-tight">Historial</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Ingresos, retiros y avances</p>
+            </div>
+            <span class="material-symbols-rounded text-gray-300 dark:text-gray-600 group-active:translate-x-0.5 transition">chevron_right</span>
+          </button>
+
+          <div class="acc-item rounded-2xl bg-white dark:bg-gray-900 shadow-soft border border-gray-100 dark:border-gray-800 overflow-hidden" data-acc="fees" data-open="false">
+            <button type="button" class="w-full text-left p-4 flex items-center gap-4 active:scale-[0.99] transition" data-acc-btn="fees">
+              <div class="size-12 rounded-2xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200/60 dark:border-amber-800/50 grid place-items-center">
+                <span class="material-symbols-rounded text-amber-600 dark:text-amber-300">percent</span>
+              </div>
+              <div class="flex-1">
+                <p class="font-black text-gray-900 dark:text-white leading-tight">Comisiones y tarifas</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Detalle por tipo de operación</p>
+              </div>
+              <span class="material-symbols-rounded text-gray-400 acc-chevron">expand_more</span>
+            </button>
+
+            <div class="acc-panel border-t border-gray-100 dark:border-gray-800">
+              <div class="p-4 space-y-3">
+                <p class="text-[11px] font-black uppercase tracking-[0.22em] text-gray-400">Detalle</p>
+
+                <div class="rounded-2xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-4">
+                  <div class="flex items-center justify-between">
+                    <p class="text-sm font-black text-gray-900 dark:text-white">Retiros</p>
+                    <span class="text-xs font-black text-gray-600 dark:text-gray-300">desde $1.50</span>
+                  </div>
+                  <div class="mt-2 space-y-2 text-xs text-gray-600 dark:text-gray-300">
+                    <div class="flex justify-between"><span>Banco (1 a 2 días)</span><span class="font-black">$1.50</span></div>
+                    <div class="flex justify-between"><span>Tarjeta (inmediato)</span><span class="font-black">$2.25</span></div>
+                    <div class="flex justify-between"><span>Cash-out (mismo día)</span><span class="font-black">$1.75</span></div>
+                  </div>
+                </div>
+
+                <div class="rounded-2xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-4">
+                  <div class="flex items-center justify-between">
+                    <p class="text-sm font-black text-gray-900 dark:text-white">Transferencias</p>
+                    <span class="text-xs font-black text-gray-600 dark:text-gray-300">$0.50</span>
+                  </div>
+                  <p class="mt-2 text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Transferir entre cuentas Ualett o a terceros según disponibilidad.
+                  </p>
+                </div>
+
+                <div class="rounded-2xl bg-primary/5 border border-primary/10 p-4">
+                  <div class="flex items-start gap-3">
+                    <span class="material-symbols-rounded text-primary">bolt</span>
+                    <div class="flex-1">
+                      <p class="text-sm font-black text-gray-900 dark:text-white">Avances de Efectivo</p>
+                      <p class="mt-1 text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                        No hay intereses ocultos. Solo una tarifa por servicio que verás antes de confirmar el avance.
+                      </p>
+                      <div class="mt-2 text-xs text-gray-600 dark:text-gray-300">
+                        <div class="flex justify-between"><span>Diario (servicio)</span><span class="font-black">$12.00</span></div>
+                        <div class="flex justify-between"><span>Semanal (servicio)</span><span class="font-black">$18.00</span></div>
+                        <div class="flex justify-between"><span>Mensual (servicio)</span><span class="font-black">$35.00</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Aviso -->
+      <section class="px-4 py-6">
+        <div class="flex gap-4 p-4 rounded-2xl bg-primary/5 border border-primary/10 items-start">
+          <span class="material-symbols-rounded text-primary mt-0.5">verified_user</span>
+          <div class="flex flex-col gap-1">
+            <p class="text-gray-900 dark:text-white text-sm font-black">Tu dinero, a tu ritmo</p>
+            <p class="text-gray-600 dark:text-gray-400 text-xs leading-relaxed">
+              Los Avances de Efectivo no son un préstamo tradicional. Son adelantos basados en tu actividad y con tarifa clara.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Nav -->
+    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-white/85 dark:bg-black/70 backdrop-blur-xl border-t border-gray-200/70 dark:border-gray-800 px-6 py-2.5 flex items-center justify-between z-50">
+      <button onclick="window.location.href='/dashboard_del_conductor_ualett/code.html'" class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500 active:text-primary transition">
+        <span class="material-symbols-rounded !text-[28px]">home</span>
+        <span class="text-[10px] font-black">Inicio</span>
+      </button>
+
+      <button onclick="window.location.href=''" class="flex flex-col items-center gap-1 text-primary">
+        <span class="material-symbols-rounded !text-[28px]">account_balance_wallet</span>
+        <span class="text-[10px] font-black">Billetera</span>
+      </button>
+
+      <button onclick="window.location.href='/actividad/code.html'" class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500 active:text-primary transition">
+        <span class="material-symbols-rounded !text-[28px]">analytics</span>
+        <span class="text-[10px] font-black">Actividad</span>
+      </button>
+
+      <button onclick="window.location.href='/perfil/code.html'" class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500 active:text-primary transition">
+        <span class="material-symbols-rounded !text-[28px]">person</span>
+        <span class="text-[10px] font-black">Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Bottom Sheet: Configurar Buffer -->
+  <div id="bufferSheet" class="sheet fixed inset-0 z-[60] flex items-end justify-center">
+    <div class="absolute inset-0 bg-black/40" data-sheet-close="true"></div>
+
+    <div class="sheet-card w-full max-w-[430px] rounded-t-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-2xl">
+      <div class="p-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-[11px] font-black tracking-[0.22em] uppercase text-gray-400">Stability Buffer</p>
+            <h4 class="text-gray-900 dark:text-white font-black text-lg">Configurar ahorro</h4>
+          </div>
+          <button class="size-11 rounded-full bg-white/80 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 grid place-items-center active:scale-95 transition"
+                  data-sheet-close="true" type="button">
+            <span class="material-symbols-rounded text-gray-600 dark:text-gray-300">close</span>
+          </button>
+        </div>
+
+        <p class="mt-2 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+          Elige el porcentaje que se guardará automáticamente por pedido.
+        </p>
+
+        <div class="mt-4 grid grid-cols-3 gap-2">
+          <button class="sheetPct h-12 rounded-2xl border border-gray-200/70 dark:border-gray-800 font-black text-gray-800 dark:text-gray-100 active:scale-[0.99] transition" data-pct="3" type="button">3%</button>
+          <button class="sheetPct h-12 rounded-2xl border border-gray-200/70 dark:border-gray-800 font-black text-gray-800 dark:text-gray-100 active:scale-[0.99] transition" data-pct="5" type="button">5%</button>
+          <button class="sheetPct h-12 rounded-2xl border border-gray-200/70 dark:border-gray-800 font-black text-gray-800 dark:text-gray-100 active:scale-[0.99] transition" data-pct="7" type="button">7%</button>
+        </div>
+
+        <div class="mt-4">
+          <label class="text-[11px] font-black text-gray-500 dark:text-gray-400">Porcentaje seleccionado</label>
+          <div class="mt-2 flex items-center gap-2 rounded-2xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 p-3">
+            <span class="material-symbols-rounded text-primary">tune</span>
+            <p class="text-sm font-black text-gray-900 dark:text-white">
+              <span id="sheetSelectedPct">5%</span> por pedido
+            </p>
+          </div>
+        </div>
+
+        <button id="saveBufferBtn"
+                class="mt-4 w-full h-12 rounded-2xl bg-primary text-white font-black shadow-lg shadow-primary/25 flex items-center justify-center gap-2 active:scale-[0.99] transition"
+                type="button">
+          <span class="material-symbols-rounded">check_circle</span>
+          Guardar
+        </button>
+
+        <div class="mt-3 pb-2">
+          <p class="text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed">
+            Esto es una demo visual. Aquí luego conectas la lógica real.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal simple: Tomar Flex -->
+  <div id="flexModal" class="sheet fixed inset-0 z-[60] flex items-center justify-center">
+    <div class="absolute inset-0 bg-black/40" data-flex-close="true"></div>
+
+    <div class="sheet-card w-[92%] max-w-[380px] rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-2xl">
+      <div class="p-4">
+        <div class="flex items-start justify-between gap-3">
+          <div class="size-12 rounded-2xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200/60 dark:border-amber-800/50 grid place-items-center">
+            <span class="material-symbols-rounded text-amber-600 dark:text-amber-300">bolt</span>
+          </div>
+          <button class="size-11 rounded-full bg-white/80 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 grid place-items-center active:scale-95 transition"
+                  data-flex-close="true" type="button">
+            <span class="material-symbols-rounded text-gray-600 dark:text-gray-300">close</span>
+          </button>
+        </div>
+
+        <h4 class="mt-3 text-gray-900 dark:text-white font-black text-lg">Confirmar Flex</h4>
+        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+          Vas a tomar <span class="font-black" id="flexConfirmAmount">$150.00</span>. Esto es un mock visual para probar el flujo.
+        </p>
+
+        <div class="mt-4 grid grid-cols-2 gap-2">
+          <button class="h-12 rounded-2xl bg-white dark:bg-gray-900/40 border border-gray-200/70 dark:border-gray-800 text-gray-900 dark:text-white font-black shadow-soft active:scale-[0.99] transition"
+                  data-flex-close="true" type="button">
+            Cancelar
+          </button>
+          <button id="confirmTakeFlexBtn"
+                  class="h-12 rounded-2xl bg-primary text-white font-black shadow-lg shadow-primary/25 active:scale-[0.99] transition"
+                  type="button">
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* Card carousel */
+    const cardsContainer = document.getElementById('cardsContainer');
+    const cardDots = document.querySelectorAll('.card-dot');
+    
+    cardsContainer.addEventListener('scroll', () => {
+      const scrollLeft = cardsContainer.scrollLeft;
+      const cardWidth = 340 + 16; // card width + gap
+      const activeIndex = Math.round(scrollLeft / cardWidth);
+      
+      cardDots.forEach((dot, index) => {
+        if (index === activeIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    });
+
+    /* Accordion */
+    function toggleAccordion(key) {
+      const item = document.querySelector(`.acc-item[data-acc="${key}"]`);
+      if (!item) return;
+      const isOpen = item.getAttribute("data-open") === "true";
+      item.setAttribute("data-open", (!isOpen).toString());
+    }
+    document.querySelectorAll("[data-acc-btn]").forEach(btn => {
+      btn.addEventListener("click", () => toggleAccordion(btn.getAttribute("data-acc-btn")));
+    });
+
+    /* Tabs Liquidez */
+    const tabs = Array.from(document.querySelectorAll(".tab-btn"));
+    const panels = {
+      earned: document.getElementById("panel-earned"),
+      buffer: document.getElementById("panel-buffer"),
+      flex: document.getElementById("panel-flex"),
+    };
+
+    function setTab(key) {
+      tabs.forEach(t => t.setAttribute("aria-selected", (t.dataset.tab === key).toString()));
+      Object.keys(panels).forEach(k => panels[k].toggleAttribute("hidden", k !== key));
+    }
+
+    tabs.forEach(t => t.addEventListener("click", () => setTab(t.dataset.tab)));
+
+   const bufferPctText = document.getElementById("bufferPctText");
+
+const activeChipClasses = [
+  "bg-primary",
+  "text-white",
+  "border-primary",
+  "shadow-lg",
+  "shadow-primary/25"
+];
+
+document.querySelectorAll(".bufferChip").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const pct = btn.getAttribute("data-pct");
+
+    // 1) Reset todos a estado normal
+    document.querySelectorAll(".bufferChip").forEach(b => {
+      b.classList.remove(...activeChipClasses);
+      // Opcional: aseguramos clases "normales" (por si se las quitaste)
+      b.classList.add("bg-gray-100", "dark:bg-gray-800/70", "border-gray-200", "dark:border-gray-700", "text-gray-700", "dark:text-gray-200");
+    });
+
+    // 2) Activar el seleccionado (azul)
+    btn.classList.remove("bg-gray-100", "dark:bg-gray-800/70", "border-gray-200", "dark:border-gray-700", "text-gray-700", "dark:text-gray-200");
+    btn.classList.add(...activeChipClasses);
+
+    // 3) Actualiza el texto
+    bufferPctText.textContent = pct + "%";
+    flashBufferToast("Cambiado a " + pct + "% (sin guardar).");
+  });
+});
+document.querySelector('.bufferChip[data-pct="5"]')?.click();
+
+
+    function flashBufferToast(msg) {
+      const toastWrap = document.getElementById("bufferToast");
+      if (!toastWrap) return;
+      toastWrap.classList.remove("hidden");
+      toastWrap.querySelector("p").textContent = msg;
+      window.clearTimeout(window.__bufToastTimer);
+      window.__bufToastTimer = window.setTimeout(() => toastWrap.classList.add("hidden"), 1800);
+    }
+
+    /* Bottom sheet Buffer */
+    const bufferSheet = document.getElementById("bufferSheet");
+    const sheetSelectedPct = document.getElementById("sheetSelectedPct");
+    let sheetPct = 5;
+
+    function openSheet() {
+      bufferSheet.setAttribute("data-open", "true");
+      sheetSelectedPct.textContent = sheetPct + "%";
+    }
+    function closeSheet() {
+      bufferSheet.setAttribute("data-open", "false");
+    }
+
+    const configBufferBtn = document.getElementById("configBufferBtn");
+    if (configBufferBtn) configBufferBtn.addEventListener("click", openSheet);
+
+    bufferSheet.querySelectorAll("[data-sheet-close]").forEach(el => {
+      el.addEventListener("click", closeSheet);
+    });
+
+    bufferSheet.querySelectorAll(".sheetPct").forEach(btn => {
+      btn.addEventListener("click", () => {
+        sheetPct = Number(btn.getAttribute("data-pct"));
+        sheetSelectedPct.textContent = sheetPct + "%";
+        bufferSheet.querySelectorAll(".sheetPct").forEach(b => {
+          b.classList.remove("bg-primary","text-white","border-primary","shadow-lg","shadow-primary/25");
+        });
+        btn.classList.add("bg-primary","text-white","border-primary","shadow-lg","shadow-primary/25");
+      });
+    });
+
+    const saveBufferBtn = document.getElementById("saveBufferBtn");
+    if (saveBufferBtn) {
+      saveBufferBtn.addEventListener("click", () => {
+        bufferPctText.textContent = sheetPct + "%";
+        closeSheet();
+        flashBufferToast("Configuración guardada (" + sheetPct + "%).");
+      });
+    }
+
+    /* Retirar buffer (visual) */
+    const withdrawBufferBtn = document.getElementById("withdrawBufferBtn");
+    const bufferAmount = document.getElementById("bufferAmount");
+    if (withdrawBufferBtn && bufferAmount) {
+      withdrawBufferBtn.addEventListener("click", () => {
+        bufferAmount.textContent = "$0.00";
+        flashBufferToast("Colchón retirado (mock).");
+      });
+    }
+
+    /* Flex: Tomar (visual con confirmación) */
+    const flexModal = document.getElementById("flexModal");
+    const takeFlexBtn = document.getElementById("takeFlexBtn");
+    const flexAmount = document.getElementById("flexAmount");
+    const flexConfirmAmount = document.getElementById("flexConfirmAmount");
+    const confirmTakeFlexBtn = document.getElementById("confirmTakeFlexBtn");
+    const flexTakenBox = document.getElementById("flexTakenBox");
+
+    function openFlexModal() {
+      flexModal.setAttribute("data-open", "true");
+      if (flexConfirmAmount && flexAmount) flexConfirmAmount.textContent = flexAmount.textContent;
+    }
+    function closeFlexModal() {
+      flexModal.setAttribute("data-open", "false");
+    }
+
+    if (takeFlexBtn) takeFlexBtn.addEventListener("click", openFlexModal);
+
+    flexModal.querySelectorAll("[data-flex-close]").forEach(el => {
+      el.addEventListener("click", closeFlexModal);
+    });
+
+    if (confirmTakeFlexBtn) {
+      confirmTakeFlexBtn.addEventListener("click", () => {
+        closeFlexModal();
+        if (takeFlexBtn) {
+          takeFlexBtn.disabled = true;
+          takeFlexBtn.classList.add("opacity-60");
+          takeFlexBtn.innerHTML = `<span class="material-symbols-rounded">check_circle</span> Tomado`;
+        }
+        if (flexTakenBox) flexTakenBox.classList.remove("hidden");
+      });
+    }
+
+    /* Flex: Cómo se calcula (visual) */
+    const howFlexBtn = document.getElementById("howFlexBtn");
+    if (howFlexBtn) {
+      howFlexBtn.addEventListener("click", () => {
+        alert("Cálculo (mock): verificación + patrón semanal + cumplimiento + historial.");
+      });
+    }
+  </script>
+</body>
+</html>

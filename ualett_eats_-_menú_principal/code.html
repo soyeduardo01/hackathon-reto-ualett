@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ualett Eats - Menú Principal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#197fe6",
+                        "secondary-navy": "#193F71",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111921",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+<!-- Main Container -->
+<div class="relative flex h-auto min-h-screen w-full flex-col max-w-[480px] mx-auto bg-white dark:bg-background-dark shadow-xl pb-24">
+<!-- Top Bar: Location & Wallet -->
+<div class="flex items-center bg-white dark:bg-background-dark px-4 py-4 justify-between sticky top-0 z-50 border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-2">
+<div class="text-primary flex size-10 items-center justify-center bg-primary/10 rounded-full">
+<span class="material-symbols-outlined text-[24px]">location_on</span>
+</div>
+<div>
+<p class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Entregar en</p>
+<h2 class="text-secondary-navy dark:text-primary text-sm font-bold leading-tight">Calle Principal 123</h2>
+</div>
+</div>
+<button class="flex items-center justify-center rounded-xl h-10 w-10 bg-slate-100 dark:bg-slate-800 text-secondary-navy dark:text-slate-100">
+<span class="material-symbols-outlined text-[24px]">account_balance_wallet</span>
+</button>
+</div>
+<!-- Search Bar -->
+<div class="px-4 pt-6 pb-2">
+<label class="flex flex-col min-w-40 h-14 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="text-slate-400 flex bg-white dark:bg-slate-800 items-center justify-center pl-4 rounded-l-xl">
+<span class="material-symbols-outlined text-[24px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-0 focus:ring-0 h-full placeholder:text-slate-400 px-4 rounded-r-xl text-base font-normal leading-normal" placeholder="¿Qué se te antoja hoy?"/>
+</div>
+</label>
+</div>
+<!-- Categories (Chips) -->
+<div class="flex gap-3 px-4 py-4 overflow-x-auto no-scrollbar">
+<div class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-primary text-white px-4 shadow-md shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">lunch_dining</span>
+<p class="text-sm font-semibold">Hamburguesas</p>
+</div>
+<div class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-4">
+<span class="material-symbols-outlined text-[20px] text-slate-600 dark:text-slate-300">local_pizza</span>
+<p class="text-slate-700 dark:text-slate-200 text-sm font-medium">Pizza</p>
+</div>
+<div class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-4">
+<span class="material-symbols-outlined text-[20px] text-slate-600 dark:text-slate-300">eco</span>
+<p class="text-slate-700 dark:text-slate-200 text-sm font-medium">Saludable</p>
+</div>
+<div class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-4">
+<span class="material-symbols-outlined text-[20px] text-slate-600 dark:text-slate-300">icecream</span>
+<p class="text-slate-700 dark:text-slate-200 text-sm font-medium">Postres</p>
+</div>
+</div>
+<!-- Promotions Carousel -->
+<div class="pt-2">
+<div class="flex items-center justify-between px-4 pb-3">
+<h3 class="text-secondary-navy dark:text-white text-lg font-bold">Promociones imperdibles</h3>
+<span class="text-primary text-sm font-bold">Ver todas</span>
+</div>
+<div class="flex overflow-x-auto no-scrollbar pb-4">
+<div class="flex items-stretch px-4 gap-4">
+<!-- Promo Card 1 -->
+<div class="flex h-full flex-1 flex-col gap-3 rounded-xl min-w-[280px]">
+<div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden shadow-lg group">
+<img class="w-full h-full object-cover" data-alt="Delicious gourmet burgers with melted cheese" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN6Blkm0Ov5kgtEMHh0otPErgpgkTmqZt5-eSpd5BoOwghZXtuv6b-dkZIHOShQ9SDxpwK6O6-c7kTQQZVMrkaDxN6dfbOhlkd-KwsMEtEYOSLeWxaXri1iXYUk_ultYQOTdo5IK0WprEmzBweOuW9MduHaz78-6wP_e-M58yRM_FgAVXoev4nJL8VoDhBOh72jhnBkd8Vr2IcZG_MjWhkZx9kyMz1lO-0MknkyJz-zmRoY4LxyiS6ywnmgfhJb7vJ6MOvGtNdrChM"/>
+<div class="absolute top-3 left-3 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-lg uppercase tracking-wider">50% OFF</div>
+</div>
+<div>
+<p class="text-secondary-navy dark:text-white text-base font-bold leading-tight">Finde de Hamburguesas</p>
+<p class="text-slate-500 text-xs font-normal">Aplica en locales seleccionados</p>
+</div>
+</div>
+<!-- Promo Card 2 -->
+<div class="flex h-full flex-1 flex-col gap-3 rounded-xl min-w-[280px]">
+<div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden shadow-lg">
+<img class="w-full h-full object-cover" data-alt="Pepperoni pizza with stretch cheese" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLq-7L7ss5hOSGUAK2Xy9DRx60E8OcMYIYAHHhQ0Q2ogRxckWkrnsCQ3H71pS0PjC8y2sDq1BswIjW3_NQ_tUQGoe3V4GPA0NiysfZbnS8Rnsb6eMMPVnWyfgqGdr_aNcp7xKtjm2f3W7M7jCn3lN-hxxyj7E2R_qgQp6JoxsZTaqkczVfW6Lyf8Bj0DnjalK5dTGY4SycFA_lKu_NTTzr0gwmOd-4ClxMO77alCbp-85G7HfkfJfX-F3zD7Bx3uDpde2ag8T7a5mz"/>
+<div class="absolute top-3 left-3 bg-orange-500 text-white text-[10px] font-bold px-2 py-1 rounded-lg uppercase tracking-wider">2x1 Pizzas</div>
+</div>
+<div>
+<p class="text-secondary-navy dark:text-white text-base font-bold leading-tight">Noche de Pizza &amp; Ualett</p>
+<p class="text-slate-500 text-xs font-normal">Válido hasta agotar stock</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section Header -->
+<div class="px-4 pt-4 pb-2">
+<h2 class="text-secondary-navy dark:text-white text-[20px] font-bold leading-tight tracking-tight">Restaurantes cercanos</h2>
+</div>
+<!-- Restaurant List -->
+<div class="px-4 flex flex-col gap-6 pt-2">
+<!-- Restaurant Card 1 -->
+<div class="flex flex-col gap-3 group">
+<div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-md">
+<img class="w-full h-full object-cover" data-alt="Modern upscale restaurant interior with tables" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfnoQhPHUN2EAaiW1-tyPTheZCbyaKnTyM9Iwx8QRgy9KMCTkGrVpdIucfSqRE7nA4_UCoxXLrALZD8UDsbjU6CHpSn6rpR-c2HSSLIrHDtq9F83g6mU0xkkSbtQJ44nQkwuxATOgq1m8Q1zsTigrl44BgzhWSNak4ADmxofBLRE4Wka3xPqr0GgQXJvQSi41ErQhcPyBAogfrek1S-hJtE3FWfRYMxFYaLTsFqm7uGt0390RUxOb0qCFFt8O8SsClPB-oalQ05V9u"/>
+<div class="absolute bottom-3 right-3 bg-white dark:bg-slate-900 rounded-lg px-2 py-1 flex items-center gap-1 shadow-md">
+<span class="material-symbols-outlined text-yellow-400 text-[16px] fill-current">star</span>
+<span class="text-[12px] font-bold text-slate-800 dark:text-white">4.8</span>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<h4 class="text-secondary-navy dark:text-white text-lg font-bold leading-tight">The Burger Palace</h4>
+<div class="flex items-center gap-2 mt-1">
+<p class="text-slate-500 text-xs font-medium">Americana • $$</p>
+<span class="text-slate-300">•</span>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span class="text-xs font-bold">15-25 min</span>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 text-primary px-3 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[20px]">add_shopping_cart</span>
+</div>
+</div>
+</div>
+<!-- Restaurant Card 2 -->
+<div class="flex flex-col gap-3 group">
+<div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-md">
+<img class="w-full h-full object-cover" data-alt="Fresh salmon sushi rolls on a platter" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGzgOAg87Jcnz2q_wevC4hjsJo2LStEQhJptmnKavtPGGYKiMm9lkERsWCCy0nl-looylS5DhKTEKoZZ4elnpLpKGShJYsffmn45w2M-wlXL_NOeWU-dE86uq9DdI9CnBvbnmOAy-Og5m9akEaJIO4wD0MTKAzH8oD5EzuF6hpFRBxnZwzzohpHj9nx-RIQLBkYtJORMTkQSfq_ERoD2aZumzxhyW8C_juGpuZvxY1dX7DTF7N7-LSnhgtu2lbOdihxanl3-QugprZ"/>
+<div class="absolute bottom-3 right-3 bg-white dark:bg-slate-900 rounded-lg px-2 py-1 flex items-center gap-1 shadow-md">
+<span class="material-symbols-outlined text-yellow-400 text-[16px] fill-current">star</span>
+<span class="text-[12px] font-bold text-slate-800 dark:text-white">4.5</span>
+</div>
+<div class="absolute top-3 left-3 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-lg uppercase">Envío Gratis</div>
+</div>
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<h4 class="text-secondary-navy dark:text-white text-lg font-bold leading-tight">Sushi Zen &amp; Grill</h4>
+<div class="flex items-center gap-2 mt-1">
+<p class="text-slate-500 text-xs font-medium">Japonesa • $$$</p>
+<span class="text-slate-300">•</span>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span class="text-xs font-bold">30-40 min</span>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 text-primary px-3 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[20px]">add_shopping_cart</span>
+</div>
+</div>
+</div>
+<!-- Restaurant Card 3 -->
+<div class="flex flex-col gap-3 group">
+<div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-md">
+<img class="w-full h-full object-cover" data-alt="Healthy salad bowl with colorful vegetables" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeb40PC73KLz8OOWRTmHm2amw8yhbitytp6XacC9i7GIudKDcnyA5dPMuWR_I_OrskxFFtdn7eE4CAm6nI8HNQ1eeOmn31oU_qnNSQ65DcIlV2_apCvaL_ANrGXNlDVSD8RwQuAc3yvo1_dfEyQAT0Bc3g0Om7i-ykgWtRoTdTX9rNgLUnkpx_efcV3r7zsOApQezYIQWMsCGcKLSGV3CpJyggliS8FaRJCeS1h1vvJMBodCzTak21KUl9765cDuc0uoIKbPQ-1MvI"/>
+<div class="absolute bottom-3 right-3 bg-white dark:bg-slate-900 rounded-lg px-2 py-1 flex items-center gap-1 shadow-md">
+<span class="material-symbols-outlined text-yellow-400 text-[16px] fill-current">star</span>
+<span class="text-[12px] font-bold text-slate-800 dark:text-white">4.9</span>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<h4 class="text-secondary-navy dark:text-white text-lg font-bold leading-tight">Green Life Kitchen</h4>
+<div class="flex items-center gap-2 mt-1">
+<p class="text-slate-500 text-xs font-medium">Saludable • $$</p>
+<span class="text-slate-300">•</span>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span class="text-xs font-bold">20-30 min</span>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 text-primary px-3 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[20px]">add_shopping_cart</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Navigation Bar (iOS style) -->
+<div class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-t border-slate-100 dark:border-slate-800 px-6 py-3 flex justify-between items-center z-50">
+<div class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[26px]">home</span>
+<span class="text-[10px] font-bold">Inicio</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500">
+<span class="material-symbols-outlined text-[26px]">search</span>
+<span class="text-[10px] font-medium">Buscar</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500">
+<span class="material-symbols-outlined text-[26px]">receipt_long</span>
+<span class="text-[10px] font-medium">Pedidos</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500">
+<span class="material-symbols-outlined text-[26px]">wallet</span>
+<span class="text-[10px] font-medium">Billetera</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500">
+<span class="material-symbols-outlined text-[26px]">person</span>
+<span class="text-[10px] font-medium">Perfil</span>
+</div>
+</div>
+</div>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body></html>
