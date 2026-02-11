@@ -1,8 +1,0 @@
-{
-  "routes": [
-    {
-      "src": "/",
-      "dest": "/splash_screen_con_textura/code.html"
-    }
-  ]
-}
